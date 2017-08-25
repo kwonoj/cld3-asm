@@ -1,0 +1,22 @@
+# Editor-specific
+.idea/
+*.sublime-project
+*.sublime-workspace
+.settings
+
+# Installed libs
+node_modules/
+typings/
+
+# Generated
+dist/
+tmp/
+coverage/
+img/
+spec-js/
+.nyc_output/
+rules/
+
+# Misc
+npm-debug.log
+.DS_STORE
