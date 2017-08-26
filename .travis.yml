@@ -1,0 +1,33 @@
+language: node_js
+sudo: false
+
+cache:
+  directories:
+    - node_modules
+
+env:
+  matrix:
+  - NODE_VER=4 FULL_VALIDATE=false
+  - NODE_VER=5 FULL_VALIDATE=false
+  - NODE_VER=6 FULL_VALIDATE=false
+  - NODE_VER=7 FULL_VALIDATE=false
+  - NODE_VER=8 FULL_VALIDATE=true
+
+matrix:
+  fast_finish: true
+
+before_install:
+  - nvm install $NODE_VER
+  - node -v && npm -v
+
+install:
+  - npm install
+  - if [ "$FULL_VALIDATE" == "true" ]; then npm run lint; fi
+
+script:
+  - npm run build
+  - npm test
+
+after_success:
+#limiting coverage under spec/hunspell-asm test to avoid wasm integration test results are being collected.
+  - if [ "$FULL_VALIDATE" == "true" ]; then npm run test:cld-asm && bash <(curl -s https://codecov.io/bash); fi

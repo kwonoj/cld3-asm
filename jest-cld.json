@@ -1,0 +1,23 @@
+{
+  "transform": {
+    ".(js|jsx|ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+  },
+  "testMatch": [
+    "**/spec/cld/**/*-spec.ts"
+  ],
+  "bail": true,
+  "resetMocks": true,
+  "clearMocks": true,
+  "resetModules": true,
+  "testEnvironment": "node",
+  "moduleFileExtensions": [
+    "js",
+    "jsx",
+    "json",
+    "ts",
+    "tsx"
+  ],
+  "testPathIgnorePatterns": [
+    "/.tmp/"
+  ]
+}
