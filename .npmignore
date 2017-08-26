@@ -11,8 +11,8 @@ test/
 examples/
 .travis.yml
 appveyor.yml
-jest-hunspell.json
-jest-hunspell-asm.json
+jest-cld.json
+jest-cld-asm.json
 tsconfg.json
 tslint.json
 wallaby.js

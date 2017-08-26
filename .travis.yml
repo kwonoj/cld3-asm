@@ -29,5 +29,5 @@ script:
   - npm test
 
 after_success:
-#limiting coverage under spec/hunspell-asm test to avoid wasm integration test results are being collected.
+#limiting coverage under spec/cld-asm test to avoid wasm integration test results are being collected.
   - if [ "$FULL_VALIDATE" == "true" ]; then npm run test:cld-asm && bash <(curl -s https://codecov.io/bash); fi
