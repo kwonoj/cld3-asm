@@ -29,7 +29,7 @@ export const cldLoader = (asmModule: CldAsmModule): CldFactory => ({
     return {
       findLanguage: (text: string) => identifier.FindLanguage(utf8.encode(text)),
       findMostFrequentLanguages: (text: string, numLangs: number) => {
-        const resultVector = identifier.FindTopNMostFreqLangs(text, numLangs);
+        const resultVector = identifier.FindTopNMostFreqLangs(utf8.encode(text), numLangs);
         const resultArray = munge_vector(resultVector);
         return resultArray.filter(x => !!x && !!x.language && x.language !== UnknownLanguage);
       },
