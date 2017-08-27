@@ -28,10 +28,10 @@ export interface LanguageIdentifier {
    * @param {string} text Input text. If text is larger than maximum input bytes (10000 by default),
    * only the part of maximum input bytes are processed.
    * @param {number} numLangs Number of most frequent language would like to detect.
-   * @return {Readonly<Array<Readonly<LanguageResult>>>} Array of detected language result.
+   * @return {Array<Readonly<LanguageResult>>} Array of detected language result.
    * If detected languages are less than {numLangs} specified, array will include only detected langauges.
    */
-  findMostFrequentLanguages: (text: string, numLangs: number) => Readonly<Array<Readonly<LanguageResult>>>;
+  findMostFrequentLanguages: (text: string, numLangs: number) => Array<Readonly<LanguageResult>>;
 
   /**
    * Destroy current instance of language identifier.
