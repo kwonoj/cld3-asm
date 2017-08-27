@@ -42,11 +42,11 @@ create(minBytes?: number, maxBytes?: number): LanguageIdentifier
 
 `LanguageIdentifier` exposes minimal interfaces to cld3's `NNetLanguageIdentifier`.
 
-- `findLanguage: (text: string): Readonly<LanguageResult>` : Finds the most likely language for the given text.
+- `findLanguage(text: string): Readonly<LanguageResult>` : Finds the most likely language for the given text.
 - `findMostFrequentLanguages(text: string, numLangs: number): Array<Readonly<LanguageResult>>` : Splits the input text into spans based on the script, predicts a language for each span, and returns a vector storing the top num_langs most frequent languages
 - `dispose(): void` : Destroy current instance of language identifier. It is important to note created instance will not be destroyed automatically.
 
-There are simple [examples]() for each environments using different apis. In each example directory do `npm install && npm start`.
+There are simple [examples](https://github.com/kwonoj/cld3-asm/tree/master/examples) for each environments. In each example directory do `npm install && npm start`.
 
 # Building / Testing
 

@@ -9,6 +9,7 @@ src/
 test/
 !dist/src
 examples/
+symbols/
 .travis.yml
 appveyor.yml
 jest-cld.json
@@ -17,3 +18,5 @@ tsconfg.json
 tslint.json
 wallaby.js
 dist/src/lib/README.md
+commitlint.config.js
+tsconfig.json
