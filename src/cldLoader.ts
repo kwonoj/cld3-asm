@@ -1,4 +1,4 @@
-import * as utf8 from 'utf8';
+import { encode } from 'utf8';
 import { CldAsmModule, ResultVector, UnknownLanguage } from './cldAsmModule';
 import { CldFactory } from './cldFactory';
 
@@ -27,9 +27,9 @@ export const cldLoader = (asmModule: CldAsmModule): CldFactory => ({
   ) => {
     const identifier = new asmModule.NNetLanguageIdentifier(minBytes, maxBytes);
     return {
-      findLanguage: (text: string) => identifier.FindLanguage(utf8.encode(text)),
+      findLanguage: (text: string) => identifier.FindLanguage(encode(text)),
       findMostFrequentLanguages: (text: string, numLangs: number) => {
-        const resultVector = identifier.FindTopNMostFreqLangs(utf8.encode(text), numLangs);
+        const resultVector = identifier.FindTopNMostFreqLangs(encode(text), numLangs);
         const resultArray = munge_vector(resultVector);
         return resultArray.filter(x => !!x && !!x.language && x.language !== UnknownLanguage);
       },
