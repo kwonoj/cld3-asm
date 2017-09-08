@@ -1,4 +1,4 @@
-import { root } from './root';
+import { root } from 'getroot';
 
 /**
  * Naïvely check if current runtime supports native web assembly.

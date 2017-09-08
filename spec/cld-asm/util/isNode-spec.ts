@@ -7,9 +7,9 @@ describe('isNode', () => {
   let root: any;
 
   beforeEach(() => {
-    jest.mock('../../../src/util/root', () => ({ root: {} }));
+    jest.mock('getroot', () => ({ root: {} }));
     isNode = require('../../../src/util/isNode').isNode;
-    root = require('../../../src/util/root').root;
+    root = require('getroot').root;
   });
 
   it('should return true if node specific object found', () => {

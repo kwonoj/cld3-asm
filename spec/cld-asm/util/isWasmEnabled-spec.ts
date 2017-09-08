@@ -7,9 +7,9 @@ describe('isWasmEnabled', () => {
   let root: any;
 
   beforeEach(() => {
-    jest.mock('../../../src/util/root', () => ({ root: {} }));
+    jest.mock('getroot', () => ({ root: {} }));
     isWasmEnabled = require('../../../src/util/isWasmEnabled').isWasmEnabled;
-    root = require('../../../src/util/root').root;
+    root = require('getroot').root;
   });
 
   it('should return true if native wasm object found', () => {

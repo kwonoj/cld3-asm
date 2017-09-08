@@ -1,4 +1,4 @@
-import { root } from './root';
+import { root } from 'getroot';
 
 /**
  * Naïvely detect if running environment if node
