@@ -33,7 +33,6 @@
     "<rootDir>/spec/.*\\.(ts|js)$",
     "<rootDir>/build/.*\\.(ts|js)$",
     "<rootDir>/src/lib/.*\\.js$",
-    "<rootDir>/src/util/root.ts",
     "<rootDir>/src/cldFactory.ts"
   ]
 }
