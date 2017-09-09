@@ -9,7 +9,7 @@ let logInstance: logFunctionType = () => {
 const log: logFunctionType = (...args: Array<any>) => (logInstance as any)(...args);
 
 /**
- * Enables logging internal behavior of electron-redux-store.
+ * Enables logging internal behavior of cld3-asm.
  * @param logger function to log.
  */
 const enableLogger = (logger: logFunctionType) => (logInstance = logger);
