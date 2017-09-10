@@ -6,6 +6,8 @@
 
 # cld3-asm
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/kwonoj/cld3-asm.svg)](https://greenkeeper.io/)
+
 `cld3-asm` is isomorphic javascript binding to google's [compact language detector v3](https://github.com/google/cld3) based on WebAssembly cld3 binary. This module aims to provide thin, lightweight interface to cld3 without requiring native modules.
 
 # Install

@@ -3,7 +3,7 @@ sudo: false
 
 cache:
   directories:
-    - node_modules
+    - $HOME/.npm
 
 env:
   matrix:
@@ -18,15 +18,21 @@ matrix:
 
 before_install:
   - nvm install $NODE_VER
+  - npm install -g npm@5
+  - npm install -g greenkeeper-lockfile@1
   - node -v && npm -v
 
 install:
   - npm install
   - if [ "$FULL_VALIDATE" == "true" ]; then npm run lint; fi
 
+before_script: greenkeeper-lockfile-update
+
 script:
   - npm run build
   - npm test
+
+after_script: greenkeeper-lockfile-upload
 
 after_success:
 #limiting coverage under spec/cld-asm test to avoid wasm integration test results are being collected.
