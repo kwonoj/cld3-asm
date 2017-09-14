@@ -1,6 +1,7 @@
 //tslint:disable:no-require-imports
 import { expect } from 'chai';
 import * as path from 'path';
+import { ENVIRONMENT } from '../../src/environment';
 import loadModuleType = require('../../src/loadModule');
 
 describe('loadModule', () => {
@@ -32,6 +33,9 @@ describe('loadModule', () => {
     const isWasmEnabled: jest.Mock<() => boolean> = require('../../src/util/isWasmEnabled').isWasmEnabled;
     isWasmEnabled.mockReturnValueOnce(true);
 
+    const isNode: jest.Mock<() => boolean> = require('../../src/util/isNode').isNode;
+    isNode.mockReturnValueOnce(true);
+
     await loadModule();
 
     expect(asm.mock.calls).to.have.lengthOf(0);
@@ -42,6 +46,9 @@ describe('loadModule', () => {
     const isWasmEnabled: jest.Mock<() => boolean> = require('../../src/util/isWasmEnabled').isWasmEnabled;
     isWasmEnabled.mockReturnValueOnce(false);
 
+    const isNode: jest.Mock<() => boolean> = require('../../src/util/isNode').isNode;
+    isNode.mockReturnValueOnce(true);
+
     await loadModule();
 
     expect(asm.mock.calls).to.have.lengthOf(1);
@@ -50,8 +57,32 @@ describe('loadModule', () => {
 
   it('should accept binaryEndpoint', async () => {
     await loadModule('endpoint');
-    expect(Object.keys(asm.mock.calls[0][0])).to.have.lengthOf(1);
+    expect(Object.keys(asm.mock.calls[0][0])).to.have.lengthOf(2);
     expect(asm.mock.calls[0][0]['locateFile']).to.be.a('function');
+  });
+
+  it('should throw if binaryEndpoint not available on browser', async () => {
+    let thrown = false;
+    try {
+      await loadModule();
+    } catch (e) {
+      thrown = true;
+      expect(e).to.be.a('error');
+    }
+
+    expect(thrown).to.be.true;
+  });
+
+  it('should throw if binaryEndpoint not available on browser override', async () => {
+    let thrown = false;
+    try {
+      await loadModule(null as any, ENVIRONMENT.BROWSER);
+    } catch (e) {
+      thrown = true;
+      expect(e).to.be.a('error');
+    }
+
+    expect(thrown).to.be.true;
   });
 
   it('should compose binaryEndpoint for node', async () => {
@@ -63,8 +94,12 @@ describe('loadModule', () => {
     isNode.mockReturnValueOnce(true);
     await loadModule(endpoint);
 
-    const locateFile = asm.mock.calls[0][0]['locateFile'];
+    const mockCalls = asm.mock.calls[0][0];
+    const locateFile = mockCalls['locateFile'];
+    const environment = mockCalls['ENVIRONMENT'];
+
     expect(locateFile(filename)).to.equal(expected);
+    expect(environment).to.equal(ENVIRONMENT.NODE);
   });
 
   it('should compose binaryEndpoint for browser', async () => {
@@ -76,8 +111,30 @@ describe('loadModule', () => {
     isNode.mockReturnValueOnce(false);
     await loadModule(endpoint);
 
-    const locateFile = asm.mock.calls[0][0]['locateFile'];
+    const mockCalls = asm.mock.calls[0][0];
+    const locateFile = mockCalls['locateFile'];
+    const environment = mockCalls['ENVIRONMENT'];
+
     expect(locateFile(filename)).to.equal(expected);
+    expect(environment).to.equal(ENVIRONMENT.BROWSER);
+  });
+
+  it('should accept custom environment', async () => {
+    const endpoint = 'c:\\endpoint';
+    const filename = 'hunspell.wasm';
+    const expected = path.join(endpoint, filename);
+
+    const isNode: jest.Mock<() => boolean> = require('../../src/util/isNode').isNode;
+    isNode.mockReturnValueOnce(false);
+    await loadModule(endpoint, ENVIRONMENT.NODE);
+
+    const mockCalls = asm.mock.calls[0][0];
+    const locateFile = mockCalls['locateFile'];
+    const environment = mockCalls['ENVIRONMENT'];
+
+    expect(isNode.mock.calls).to.have.lengthOf(0);
+    expect(locateFile(filename)).to.equal(expected);
+    expect(environment).to.equal(ENVIRONMENT.NODE);
   });
 });
 //tslint:enable:no-require-imports
