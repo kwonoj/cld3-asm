@@ -2,6 +2,7 @@ import { root } from 'getroot';
 
 /**
  * Naïvely detect if running environment if node
+ * Note this'll return true on Electron's renderer process as well
  */
 export const isNode = () => {
   const proc = root.process;
