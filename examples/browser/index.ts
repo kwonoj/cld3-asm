@@ -1,6 +1,6 @@
 //tslint:disable:no-console
+import { isWasmEnabled } from 'emscripten-wasm-loader';
 import { loadModule } from '../../src/index';
-import { isWasmEnabled } from '../../src/util/isWasmEnabled';
 import { enableLogger } from '../../src/util/logger';
 import { runCld } from '../runCld';
 

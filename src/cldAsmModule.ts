@@ -95,4 +95,5 @@ export interface CldAsmModule {
     kReliabilityHrBsThreshold: number;
     new (minBytes: number, maxBytes: number): NNetLanguageIdentifier;
   };
+  initializeRuntime(): Promise<boolean>;
 }
