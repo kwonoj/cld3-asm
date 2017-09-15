@@ -1,3 +1,20 @@
+<a name="0.0.3"></a>
+## [0.0.3](https://github.com/kwonoj/cld3-asm/compare/v0.0.2...v0.0.3) (2017-09-15)
+
+
+### Bug Fixes
+
+* **cldasmmodule:** export runtime interfaces ([4ea0ff1](https://github.com/kwonoj/cld3-asm/commit/4ea0ff1))
+
+
+### Features
+
+* **cld3:** bump up cld3 ([17cc23d](https://github.com/kwonoj/cld3-asm/commit/17cc23d))
+* **loadmodule:** support environment override ([1f5bc51](https://github.com/kwonoj/cld3-asm/commit/1f5bc51))
+* **logger:** wire emscripten loader logger ([b5b29e1](https://github.com/kwonoj/cld3-asm/commit/b5b29e1))
+
+
+
 <a name="0.0.2"></a>
 ## [0.0.2](https://github.com/kwonoj/cld3-asm/compare/v0.0.1...v0.0.2) (2017-09-08)
 
