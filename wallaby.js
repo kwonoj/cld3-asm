@@ -1,5 +1,5 @@
 module.exports = wallaby => ({
-  files: ['src/**/*.ts'],
+  files: ['src/**/*.ts', 'src/lib/asm/cld3.js', 'src/lib/wasm/cld3.js'],
 
   tests: ['spec/cld-asm/**/*.ts'],
 
