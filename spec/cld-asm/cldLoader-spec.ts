@@ -29,7 +29,7 @@ describe('cldLoader', () => {
       return ctor;
     })();
 
-    cldLoader(asmModule).create();
+    cldLoader(asmModule, null as any).create();
 
     expect(called).to.deep.equal([11, 22]);
   });
@@ -46,7 +46,7 @@ describe('cldLoader', () => {
       return ctor;
     })();
 
-    cldLoader(asmModule).create(22, 33);
+    cldLoader(asmModule, null as any).create(22, 33);
 
     expect(called).to.deep.equal([22, 33]);
   });
@@ -67,7 +67,7 @@ describe('cldLoader', () => {
       };
 
       (asmModule as any).NNetLanguageIdentifier = (() => (..._args: Array<any>) => mockIdentifier)();
-      identifier = cldLoader(asmModule).create(10, 10);
+      identifier = cldLoader(asmModule, null as any).create(10, 10);
     });
 
     it('should find language with utf8 encoded', () => {
