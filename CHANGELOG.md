@@ -1,3 +1,13 @@
+<a name="0.0.5"></a>
+## [0.0.5](https://github.com/kwonoj/cld3-asm/compare/v0.0.4...v0.0.5) (2017-09-18)
+
+
+### Bug Fixes
+
+* **preamble:** support electron without require ([a612f74](https://github.com/kwonoj/cld3-asm/commit/a612f74))
+
+
+
 <a name="0.0.4"></a>
 ## [0.0.4](https://github.com/kwonoj/cld3-asm/compare/v0.0.2...v0.0.4) (2017-09-16)
 
