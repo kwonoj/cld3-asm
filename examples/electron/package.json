@@ -1,0 +1,23 @@
+{
+  "name": "electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "copy:resource": "shx cp *.html ./dist/examples/electron && shx cp -r ../../src/lib ./dist/src/lib",
+    "build": "shx rm -rf ./dist && tsc",
+    "start": "echo 'npm run browserwindow' and 'npm run browserview' will start each examples",
+    "browserwindow": "npm-run-all build copy:resource && cross-env ENTRY=browserWindow electron ./dist/examples/electron/main.js",
+    "browserview": "npm-run-all build copy:resource && cross-env ENTRY=browserView electron ./dist/examples/electron/main.js"
+  },
+  "author": "OJ Kwon <kwon.ohjoong@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "cross-env": "^5.0.5",
+    "electron": "^1.7.6",
+    "npm-run-all": "^4.1.1",
+    "shx": "^0.2.2",
+    "typescript": "^2.5.2"
+  },
+  "dependencies": {}
+}

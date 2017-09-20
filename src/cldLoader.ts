@@ -1,3 +1,4 @@
+import { ENVIRONMENT } from 'emscripten-wasm-loader';
 import { encode } from 'utf8';
 import { CldAsmModule, ResultVector, UnknownLanguage } from './cldAsmModule';
 import { CldFactory } from './cldFactory';
@@ -20,7 +21,7 @@ const munge_vector = (vector: ResultVector) => {
  *
  * @returns {CldFactory} Factory function manages lifecycle of cld3 language identifier.
  */
-export const cldLoader = (asmModule: CldAsmModule): CldFactory => ({
+export const cldLoader = (asmModule: CldAsmModule, _environment: ENVIRONMENT): CldFactory => ({
   create: (
     minBytes: number = asmModule.NNetLanguageIdentifier.kMinNumBytesToConsider,
     maxBytes: number = asmModule.NNetLanguageIdentifier.kMaxNumBytesToConsider
