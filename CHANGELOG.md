@@ -1,3 +1,14 @@
+<a name="0.0.6"></a>
+## [0.0.6](https://github.com/kwonoj/cld3-asm/compare/v0.0.5...v0.0.6) (2017-09-20)
+
+
+### Features
+
+* **getloader:** refactor getting loader into closure ([e0155a0](https://github.com/kwonoj/cld3-asm/commit/e0155a0))
+* **loadmodule:** fall back to asm.js if wasm load fails ([aef1307](https://github.com/kwonoj/cld3-asm/commit/aef1307))
+
+
+
 <a name="0.0.5"></a>
 ## [0.0.5](https://github.com/kwonoj/cld3-asm/compare/v0.0.4...v0.0.5) (2017-09-18)
 
