@@ -13,7 +13,6 @@ describe('loadModule', () => {
   let loadModule: typeof loadModuleType.loadModule;
 
   beforeEach(() => {
-    jest.mock('../../src/cldLoader', () => ({ cldLoader: jest.fn() }));
     jest.mock('../../src/getLoader', () => ({ getLoader: jest.fn() }));
 
     jest.mock('emscripten-wasm-loader', () => ({
