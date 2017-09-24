@@ -3,10 +3,9 @@
 [![codecov](https://codecov.io/gh/kwonoj/cld3-asm/branch/master/graph/badge.svg)](https://codecov.io/gh/kwonoj/cld3-asm)
 [![npm](https://img.shields.io/npm/v/cld3-asm.svg)](https://www.npmjs.com/package/cld3-asm)
 [![node](https://img.shields.io/badge/node-=>4.0-blue.svg?style=flat)](https://www.npmjs.com/package/cld3-asm)
+[![Greenkeeper badge](https://badges.greenkeeper.io/kwonoj/cld3-asm.svg)](https://greenkeeper.io/)
 
 # cld3-asm
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/kwonoj/cld3-asm.svg)](https://greenkeeper.io/)
 
 `cld3-asm` is isomorphic javascript binding to google's [compact language detector v3](https://github.com/google/cld3) based on WebAssembly cld3 binary. This module aims to provide thin, lightweight interface to cld3 without requiring native modules.
 
