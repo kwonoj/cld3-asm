@@ -1,3 +1,13 @@
+<a name="0.0.8"></a>
+## [0.0.8](https://github.com/kwonoj/cld3-asm/compare/v0.0.7...v0.0.8) (2017-10-01)
+
+
+### Features
+
+* **index:** export interfaces ([1718a55](https://github.com/kwonoj/cld3-asm/commit/1718a55))
+
+
+
 <a name="0.0.7"></a>
 ## [0.0.7](https://github.com/kwonoj/cld3-asm/compare/v0.0.6...v0.0.7) (2017-09-22)
 
