@@ -1,6 +1,6 @@
 import { LanguageResult } from './cldAsmModule';
 
-export interface LanguageIdentifier {
+interface LanguageIdentifier {
   /**
    * Finds the most likely language for the given text, along with additional
    * information (e.g., probability). The prediction is based on the first N
@@ -48,4 +48,4 @@ interface CldFactory {
   create(minBytes?: number, maxBytes?: number): LanguageIdentifier;
 }
 
-export { CldFactory };
+export { LanguageIdentifier, CldFactory };
