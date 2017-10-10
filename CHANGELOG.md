@@ -1,3 +1,23 @@
+<a name="0.0.9"></a>
+## [0.0.9](https://github.com/kwonoj/cld3-asm/compare/v0.0.8...v0.0.9) (2017-10-10)
+
+
+### Features
+
+* **cld3:** bump up cld3 ([9c8a697](https://github.com/kwonoj/cld3-asm/commit/9c8a697))
+
+
+
+<a name="0.0.9"></a>
+## [0.0.9](https://github.com/kwonoj/cld3-asm/compare/v0.0.8...v0.0.9) (2017-10-10)
+
+
+### Features
+
+* **cld3:** bump up cld3 ([9c8a697](https://github.com/kwonoj/cld3-asm/commit/9c8a697))
+
+
+
 <a name="0.0.8"></a>
 ## [0.0.8](https://github.com/kwonoj/cld3-asm/compare/v0.0.7...v0.0.8) (2017-10-01)
 
