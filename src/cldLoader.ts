@@ -1,7 +1,8 @@
 import { ENVIRONMENT } from 'emscripten-wasm-loader';
 import { encode } from 'utf8';
-import { CldAsmModule, ResultVector, UnknownLanguage } from './cldAsmModule';
+import { CldAsmModule, ResultVector } from './cldAsmModule';
 import { CldFactory } from './cldFactory';
+import { LanguageCode } from './languageCode';
 
 const munge_vector = (vector: ResultVector) => {
   const size = vector.size();
@@ -32,7 +33,7 @@ export const cldLoader = (asmModule: CldAsmModule, _environment: ENVIRONMENT): C
       findMostFrequentLanguages: (text: string, numLangs: number) => {
         const resultVector = identifier.FindTopNMostFreqLangs(encode(text), numLangs);
         const resultArray = munge_vector(resultVector);
-        return resultArray.filter(x => !!x && !!x.language && x.language !== UnknownLanguage);
+        return resultArray.filter(x => !!x && !!x.language && x.language !== LanguageCode.UNKNOWN);
       },
       dispose: () => identifier.delete()
     };
