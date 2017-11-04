@@ -1,3 +1,8 @@
+<a name="0.0.11"></a>
+## [0.0.11](https://github.com/kwonoj/cld3-asm/compare/v0.0.10...v0.0.11) (2017-11-04)
+
+
+
 <a name="0.0.10"></a>
 ## [0.0.10](https://github.com/kwonoj/cld3-asm/compare/v0.0.9...v0.0.10) (2017-10-19)
 

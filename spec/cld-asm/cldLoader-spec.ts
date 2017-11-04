@@ -1,8 +1,9 @@
 import { expect } from 'chai';
-import { CldAsmModule, UnknownLanguage } from '../../src/cldAsmModule';
+import { CldAsmModule } from '../../src/cldAsmModule';
 import { LanguageIdentifier } from '../../src/cldFactory';
 //tslint:disable-next-line:no-require-imports
 import cldLoaderType = require('../../src/cldLoader');
+import { LanguageCode } from '../../src/languageCode';
 
 describe('cldLoader', () => {
   let cldLoader: typeof cldLoaderType.cldLoader;
@@ -124,7 +125,7 @@ describe('cldLoader', () => {
       const text = 'meh';
       const encoded = 'boo';
 
-      const dummyReturnValue = [{ language: text }, { language: UnknownLanguage }];
+      const dummyReturnValue = [{ language: text }, { language: LanguageCode.UNKNOWN }];
       const dummyReturn = {
         size: () => 2,
         get: (idx: number) => dummyReturnValue[idx]

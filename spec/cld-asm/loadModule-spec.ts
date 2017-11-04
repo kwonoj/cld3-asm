@@ -77,6 +77,7 @@ describe('loadModule', () => {
       thrown = true;
     }
 
+    expect(thrown).to.be.true;
     expect(getLoader.mock.calls).to.have.lengthOf(2);
     expect(getLoader.mock.calls[0]).to.deep.equal(['./lib/wasm', undefined, undefined]);
     expect(getLoader.mock.calls[1]).to.deep.equal(['./lib/asm', undefined, undefined]);
@@ -99,6 +100,7 @@ describe('loadModule', () => {
       thrown = true;
     }
 
+    expect(thrown).to.be.true;
     expect(getLoader.mock.calls).to.have.lengthOf(1);
     expect(getLoader.mock.calls[0]).to.deep.equal(['./lib/asm', undefined, undefined]);
   });

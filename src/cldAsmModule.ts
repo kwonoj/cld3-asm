@@ -1,10 +1,10 @@
-export const UnknownLanguage: string = 'und';
+import { LanguageCode } from './languageCode';
 
 export interface LanguageResult {
   /**
    * Detected language. {UnknownLanguage} if detection fails.
    */
-  language: string;
+  language: LanguageCode;
   /**
    * Language probability.
    */
