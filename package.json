@@ -53,7 +53,7 @@
   "homepage": "https://github.com/kwonoj/cld3-asm#readme",
   "devDependencies": {
     "@commitlint/cli": "^5.0.0",
-    "@commitlint/config-angular": "^4.2.0",
+    "@commitlint/config-angular": "^5.0.0",
     "@types/chai": "^4.0.3",
     "@types/jest": "^21.1.0",
     "@types/lodash": "^4.14.74",
