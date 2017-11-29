@@ -6,7 +6,7 @@
   "types": "./dist/src/index.d.ts",
   "engines": {
     "npm": ">=3.0.0",
-    "node": ">=4.2.4"
+    "node": ">=8.0.0"
   },
   "config": {
     "commitizen": {
@@ -16,7 +16,7 @@
   "lint-staged": {
     "*.{ts,js}": [
       "prettier --write --single-quote --print-width 120 --jsx-bracket-same-line true --ignore-path ./src/lib/*.js",
-      "tslint --fix --type-check --project tsconfig.json --exclude ./src/lib",
+      "tslint --fix --type-check --project tsconfig.json --exclude ./src/lib/*",
       "git add"
     ]
   },
@@ -77,7 +77,7 @@
     "typescript": "^2.6.1"
   },
   "dependencies": {
-    "emscripten-wasm-loader": "0.0.8",
+    "emscripten-wasm-loader": "^1.0.0",
     "tslib": "^1.7.1",
     "utf8": "^2.1.2"
   }
