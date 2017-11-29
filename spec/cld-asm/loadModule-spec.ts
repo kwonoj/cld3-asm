@@ -9,113 +9,75 @@ enum mockENVIRONMENT {
   WEB = 'WEB'
 }
 
+jest.mock('../../src/lib/cld3', () => jest.fn(), { virtual: true });
+
 describe('loadModule', () => {
   let loadModule: typeof loadModuleType.loadModule;
+  let mockGetModuleLoader: jest.Mock<any>;
 
   beforeEach(() => {
-    jest.mock('../../src/getLoader', () => ({ getLoader: jest.fn() }));
-
+    mockGetModuleLoader = jest.fn(() => jest.fn());
     jest.mock('emscripten-wasm-loader', () => ({
       isWasmEnabled: jest.fn(),
       isNode: jest.fn(),
+      getModuleLoader: jest.fn((cb: Function) => {
+        cb();
+        return mockGetModuleLoader;
+      }),
       ENVIRONMENT: mockENVIRONMENT
     }));
 
     loadModule = require('../../src/loadModule').loadModule;
   });
 
-  it('should return module from wasm', async () => {
-    const { isWasmEnabled } = require('emscripten-wasm-loader');
-    (isWasmEnabled as jest.Mock<any>).mockReturnValueOnce(true);
+  it('should create moduleLoader on browser environment override', async () => {
+    await loadModule(mockENVIRONMENT.WEB as any);
 
-    await loadModule();
-    const getLoader = require('../../src/getLoader').getLoader as jest.Mock<any>;
-    expect(getLoader.mock.calls).to.have.lengthOf(1);
-    expect(getLoader.mock.calls[0]).to.deep.equal(['./lib/wasm', undefined, undefined]);
+    const getModuleLoaderCalls = (require('emscripten-wasm-loader').getModuleLoader as jest.Mock<any>).mock.calls;
+    expect(getModuleLoaderCalls).to.have.lengthOf(1);
+
+    const moduleLoaderCalls = mockGetModuleLoader.mock.calls;
+    expect(moduleLoaderCalls).to.have.lengthOf(1);
+    expect(moduleLoaderCalls[0]).to.deep.equal([mockENVIRONMENT.WEB]);
   });
 
-  it('should return module from asm', async () => {
-    const { isWasmEnabled } = require('emscripten-wasm-loader');
-    (isWasmEnabled as jest.Mock<any>).mockReturnValueOnce(false);
+  it('should create module on node environmnet override', async () => {
+    await loadModule(mockENVIRONMENT.NODE as any);
 
-    await loadModule();
-    const getLoader = require('../../src/getLoader').getLoader as jest.Mock<any>;
-    expect(getLoader.mock.calls).to.have.lengthOf(1);
-    expect(getLoader.mock.calls[0]).to.deep.equal(['./lib/asm', undefined, undefined]);
+    const getModuleLoaderCalls = (require('emscripten-wasm-loader').getModuleLoader as jest.Mock<any>).mock.calls;
+    expect(getModuleLoaderCalls).to.have.lengthOf(1);
+
+    const moduleLoaderCalls = mockGetModuleLoader.mock.calls;
+    expect(moduleLoaderCalls).to.have.lengthOf(1);
+    expect(moduleLoaderCalls[0]).to.deep.equal([mockENVIRONMENT.NODE]);
   });
 
-  it('should fallback wasm to asm', async () => {
-    const { isWasmEnabled } = require('emscripten-wasm-loader');
-    (isWasmEnabled as jest.Mock<any>).mockReturnValue(true);
-    const getLoader = require('../../src/getLoader').getLoader as jest.Mock<any>;
-
-    getLoader.mockImplementationOnce(() => {
-      throw new Error();
-    });
+  it('should create moduleLoader on browser environment', async () => {
+    const { isNode } = require('emscripten-wasm-loader');
+    (isNode as jest.Mock<any>).mockReturnValueOnce(false);
 
     await loadModule();
 
-    expect(getLoader.mock.calls).to.have.lengthOf(2);
-    expect(getLoader.mock.calls[0]).to.deep.equal(['./lib/wasm', undefined, undefined]);
-    expect(getLoader.mock.calls[1]).to.deep.equal(['./lib/asm', undefined, undefined]);
+    const getModuleLoaderCalls = (require('emscripten-wasm-loader').getModuleLoader as jest.Mock<any>).mock.calls;
+    expect(getModuleLoaderCalls).to.have.lengthOf(1);
+
+    const moduleLoaderCalls = mockGetModuleLoader.mock.calls;
+    expect(moduleLoaderCalls).to.have.lengthOf(1);
+    expect(moduleLoaderCalls[0]).to.deep.equal([undefined]);
   });
 
-  it('should throw fallback asm fail to load', async () => {
-    const { isWasmEnabled } = require('emscripten-wasm-loader');
-    (isWasmEnabled as jest.Mock<any>).mockReturnValue(true);
-    const getLoader = require('../../src/getLoader').getLoader as jest.Mock<any>;
+  it('should create module on node environmnet', async () => {
+    const { isNode } = require('emscripten-wasm-loader');
+    (isNode as jest.Mock<any>).mockReturnValueOnce(true);
 
-    getLoader.mockImplementation(() => {
-      throw new Error();
-    });
+    await loadModule();
 
-    let thrown = false;
-    try {
-      await loadModule();
-    } catch (e) {
-      expect(e).to.be.an('Error');
-      thrown = true;
-    }
+    const getModuleLoaderCalls = (require('emscripten-wasm-loader').getModuleLoader as jest.Mock<any>).mock.calls;
+    expect(getModuleLoaderCalls).to.have.lengthOf(1);
 
-    expect(thrown).to.be.true;
-    expect(getLoader.mock.calls).to.have.lengthOf(2);
-    expect(getLoader.mock.calls[0]).to.deep.equal(['./lib/wasm', undefined, undefined]);
-    expect(getLoader.mock.calls[1]).to.deep.equal(['./lib/asm', undefined, undefined]);
-  });
-
-  it('should throw if asm fails for first attempt', async () => {
-    const { isWasmEnabled } = require('emscripten-wasm-loader');
-    (isWasmEnabled as jest.Mock<any>).mockReturnValue(false);
-    const getLoader = require('../../src/getLoader').getLoader as jest.Mock<any>;
-
-    getLoader.mockImplementationOnce(() => {
-      throw new Error();
-    });
-
-    let thrown = false;
-    try {
-      await loadModule();
-    } catch (e) {
-      expect(e).to.be.an('Error');
-      thrown = true;
-    }
-
-    expect(thrown).to.be.true;
-    expect(getLoader.mock.calls).to.have.lengthOf(1);
-    expect(getLoader.mock.calls[0]).to.deep.equal(['./lib/asm', undefined, undefined]);
-  });
-
-  it('should accept endpoint with environment', async () => {
-    const endpoint = 'boo';
-    const env = mockENVIRONMENT.NODE;
-
-    const { isWasmEnabled } = require('emscripten-wasm-loader');
-    (isWasmEnabled as jest.Mock<any>).mockReturnValueOnce(true);
-
-    await loadModule(endpoint, env as any);
-    const getLoader = require('../../src/getLoader').getLoader as jest.Mock<any>;
-    expect(getLoader.mock.calls).to.have.lengthOf(1);
-    expect(getLoader.mock.calls[0]).to.deep.equal(['./lib/wasm', endpoint, env]);
+    const moduleLoaderCalls = mockGetModuleLoader.mock.calls;
+    expect(moduleLoaderCalls).to.have.lengthOf(1);
+    expect(moduleLoaderCalls[0]).to.deep.equal([undefined]);
   });
 });
 //tslint:enable:no-require-imports

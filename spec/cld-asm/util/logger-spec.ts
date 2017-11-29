@@ -24,6 +24,6 @@ describe('logger', () => {
     log(message, value);
 
     expect(mock.mock.calls).to.have.lengthOf(1);
-    expect(mock.mock.calls[0]).to.deep.equal([message, value]);
+    expect(mock.mock.calls[0]).to.deep.equal([`cld3::${message}`, value]);
   });
 });
