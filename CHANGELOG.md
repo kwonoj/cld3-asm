@@ -1,3 +1,20 @@
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/kwonoj/cld3-asm/compare/v0.0.11...v1.0.0) (2017-11-30)
+
+
+### Features
+
+* **cld3:** update cld3 into sigle file binary ([bb8dfa1](https://github.com/kwonoj/cld3-asm/commit/bb8dfa1))
+* **loadmodule:** support single file binary load ([d7ab905](https://github.com/kwonoj/cld3-asm/commit/d7ab905))
+* **logger:** enablelogger appends scope ([cc98f9e](https://github.com/kwonoj/cld3-asm/commit/cc98f9e))
+
+
+### BREAKING CHANGES
+
+* **loadmodule:** now runs on native-wasm supported runtime only
+
+
+
 <a name="0.0.11"></a>
 ## [0.0.11](https://github.com/kwonoj/cld3-asm/compare/v0.0.10...v0.0.11) (2017-11-04)
 
