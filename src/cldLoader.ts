@@ -4,6 +4,11 @@ import { CldAsmModule, ResultVector } from './cldAsmModule';
 import { CldFactory } from './cldFactory';
 import { LanguageCode } from './languageCode';
 
+/**
+ * @internal
+ * Flatten vector object returned by cld3 into array.
+ *
+ */
 const munge_vector = (vector: ResultVector) => {
   const size = vector.size();
   const ret = [];

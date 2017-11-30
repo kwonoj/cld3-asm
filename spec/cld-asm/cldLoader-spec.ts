@@ -1,22 +1,15 @@
 import { expect } from 'chai';
 import { CldAsmModule } from '../../src/cldAsmModule';
 import { LanguageIdentifier } from '../../src/cldFactory';
-//tslint:disable-next-line:no-require-imports
-import cldLoaderType = require('../../src/cldLoader');
+import { cldLoader } from '../../src/cldLoader';
 import { LanguageCode } from '../../src/languageCode';
 
+jest.mock('utf8');
+const encodeMock = require('utf8').encode; //tslint:disable-line:no-require-imports no-var-requires
+
 describe('cldLoader', () => {
-  let cldLoader: typeof cldLoaderType.cldLoader;
   let asmModule: CldAsmModule;
-
-  beforeEach(() => {
-    jest.mock('utf8');
-
-    asmModule = {} as any;
-
-    //tslint:disable-next-line:no-require-imports
-    cldLoader = require('../../src/cldLoader').cldLoader;
-  });
+  beforeEach(() => (asmModule = {} as any));
 
   it('should able to create with default bytes', () => {
     const called: Array<number> = [];
@@ -72,9 +65,6 @@ describe('cldLoader', () => {
     });
 
     it('should find language with utf8 encoded', () => {
-      //tslint:disable-next-line:no-require-imports
-      const encodeMock: jest.Mock<any> = require('utf8').encode;
-
       const text = 'meh';
       const encoded = 'boo';
 
@@ -93,9 +83,6 @@ describe('cldLoader', () => {
     });
 
     it('should find most frequent languages with utf8 encoded', () => {
-      //tslint:disable-next-line:no-require-imports
-      const encodeMock: jest.Mock<any> = require('utf8').encode;
-
       const text = 'meh';
       const encoded = 'boo';
 
@@ -113,15 +100,11 @@ describe('cldLoader', () => {
       //actual integration test are placed under cld-spec.
       expect(ret).to.deep.equal(dummyReturnValue);
 
-      expect(encodeMock.mock.calls).to.have.lengthOf(1);
       expect(mockIdentifier.FindTopNMostFreqLangs.mock.calls).to.have.lengthOf(1);
       expect(mockIdentifier.FindTopNMostFreqLangs.mock.calls[0]).to.deep.equal([encoded, 3]);
     });
 
     it('should return only found most frequent languages, filter unknown language', () => {
-      //tslint:disable-next-line:no-require-imports
-      const encodeMock: jest.Mock<any> = require('utf8').encode;
-
       const text = 'meh';
       const encoded = 'boo';
 

@@ -1,5 +1,5 @@
 module.exports = wallaby => ({
-  files: ['src/**/*.ts', 'src/lib/asm/cld3.js', 'src/lib/wasm/cld3.js'],
+  files: ['src/**/*.ts'],
 
   tests: ['spec/cld-asm/**/*.ts'],
 
@@ -16,13 +16,12 @@ module.exports = wallaby => ({
     regular: 1
   },
 
-  setup: function(w) {
-    jestConfig = {
-      resetMocks: true,
-      resetModules: true,
-      clearMocks: true
-    };
-
-    w.testFramework.configure(jestConfig);
+  preprocessors: {
+    '**/*.js?(x)': file =>
+      require('babel-core').transform(file.content, {
+        sourceMap: true,
+        filename: file.path,
+        presets: ['babel-preset-jest']
+      })
   }
 });
