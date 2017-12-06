@@ -11,16 +11,18 @@
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
-    }
+    },
+    "cld3-version": "d310377-171205"
   },
   "lint-staged": {
     "*.{ts,js}": [
       "prettier --write --single-quote --print-width 120 --jsx-bracket-same-line true --ignore-path ./src/lib/*.js",
-      "tslint --fix --project tsconfig.json --exclude ./src/lib/*",
+      "tslint --fix",
       "git add"
     ]
   },
   "scripts": {
+    "prepare": "ts-node bootstrap.ts",
     "prepublishOnly": "npm-run-all build test",
     "precommit": "lint-staged",
     "prepush": "npm-run-all build test",
@@ -58,6 +60,7 @@
     "@types/jest": "^21.1.0",
     "@types/lodash": "^4.14.87",
     "@types/node": "^8.0.54",
+    "@types/shelljs": "^0.7.6",
     "@types/utf8": "^2.1.6",
     "chai": "^4.1.1",
     "commitizen": "2.9.6",
@@ -69,6 +72,7 @@
     "lodash": "^4.17.4",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.5.3",
+    "shelljs": "^0.7.8",
     "shx": "^0.2.2",
     "ts-jest": "^21.2.4",
     "ts-node": "^3.3.0",

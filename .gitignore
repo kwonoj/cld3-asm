@@ -8,6 +8,9 @@
 node_modules/
 typings/
 
+# Wasm binary
+src/lib/cld3.js
+
 # Generated
 dist/
 tmp/
