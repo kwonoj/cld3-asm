@@ -22,7 +22,7 @@
     ]
   },
   "scripts": {
-    "prepare": "ts-node bootstrap.ts",
+    "prepare": "node -r ts-node/register bootstrap.ts",
     "prepublishOnly": "npm-run-all build test",
     "precommit": "lint-staged",
     "prepush": "npm-run-all build test",
@@ -54,35 +54,35 @@
   },
   "homepage": "https://github.com/kwonoj/cld3-asm#readme",
   "devDependencies": {
-    "@commitlint/cli": "^5.0.0",
+    "@commitlint/cli": "^5.2.5",
     "@commitlint/config-angular": "^5.0.0",
-    "@types/chai": "^4.0.8",
+    "@types/chai": "^4.0.10",
     "@types/jest": "^21.1.0",
     "@types/lodash": "^4.14.87",
-    "@types/node": "^8.0.54",
-    "@types/shelljs": "^0.7.6",
+    "@types/node": "^8.5.1",
+    "@types/shelljs": "^0.7.7",
     "@types/utf8": "^2.1.6",
     "chai": "^4.1.1",
     "commitizen": "2.9.6",
     "conventional-changelog-cli": "^1.3.2",
     "cz-conventional-changelog": "2.1.0",
     "husky": "^0.14.3",
-    "jest": "^21.0.2",
+    "jest": "^22.0.3",
     "lint-staged": "^6.0.0",
     "lodash": "^4.17.4",
     "npm-run-all": "^4.0.2",
-    "prettier": "^1.5.3",
+    "prettier": "^1.9.2",
     "shelljs": "^0.7.8",
     "shx": "^0.2.2",
     "ts-jest": "^22.0.0",
-    "ts-node": "^3.3.0",
+    "ts-node": "^4.0.2",
     "tslint": "^5.6.0",
     "tslint-no-unused-expression-chai": "0.0.3",
     "typescript": "^2.6.1"
   },
   "dependencies": {
     "emscripten-wasm-loader": "^1.0.0",
-    "tslib": "^1.7.1",
+    "tslib": "^1.8.1",
     "utf8": "^3.0.0"
   }
 }
