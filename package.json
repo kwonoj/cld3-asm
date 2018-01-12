@@ -72,7 +72,7 @@
     "lodash": "^4.17.4",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.10.2",
-    "shelljs": "^0.7.8",
+    "shelljs": "^0.8.0",
     "shx": "^0.2.2",
     "ts-jest": "^22.0.1",
     "ts-node": "^4.1.0",
