@@ -19,7 +19,7 @@ npm install cld3-asm
 
 ## Loading module asynchronously
 
-`cld3-asm` relies on wasm binary (or asm.js where wasm is not supported) of cld3, which need to be initialized first.
+`cld3-asm` relies on wasm binary of cld3, which need to be initialized first.
 
 ```js
 import { loadModule } from 'cld3-asm';
