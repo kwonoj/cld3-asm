@@ -18,12 +18,12 @@ const readFile = promisify(fs.readFile);
 const asyncExec = promisify(exec);
 
 /**
- * Generate sha512 checksum from given string.
+ * Generate sha512 checksum from given file.
  */
 const calculateChecksumFromFile = async (filePath: string) =>
   crypto
     .createHash('sha512')
-    .update(await readFile(filePath, { encoding: 'utf-8' }), 'utf8')
+    .update(await readFile(filePath))
     .digest('hex');
 
 /**
@@ -39,27 +39,30 @@ const getRemoteChecksum = (url: string) => {
  */
 (async () => {
   const libPath = path.resolve('./src/lib');
-  const fileName = 'cld3.js';
-  const localBinarypath = path.join(libPath, fileName);
+  const fileNames = ['cld3.js', 'cld3.wasm'];
 
-  const url = `https://github.com/kwonoj/docker-cld3-wasm/releases/download/${version}/${fileName}`;
+  for (const fileName of fileNames) {
+    const localBinarypath = path.join(libPath, fileName);
 
-  //Create checksum validator
-  const remoteChecksum = getRemoteChecksum(url);
-  const validateBinary = async () => (await calculateChecksumFromFile(localBinarypath)) === remoteChecksum;
-  const isBinaryExists = () => fs.existsSync(localBinarypath);
+    const url = `https://github.com/kwonoj/docker-cld3-wasm/releases/download/${version}/${fileName}`;
 
-  if (isBinaryExists() && (await validateBinary())) {
-    return;
-  }
+    //Create checksum validator
+    const remoteChecksum = getRemoteChecksum(url);
+    const validateBinary = async () => (await calculateChecksumFromFile(localBinarypath)) === remoteChecksum;
+    const isBinaryExists = () => fs.existsSync(localBinarypath);
 
-  console.log(`Downloading cld3 wasm binary version '${version}'`);
+    if (isBinaryExists() && (await validateBinary())) {
+      continue;
+    }
 
-  rm('-rf', libPath);
-  mkdir(libPath);
-  await asyncExec(`wget -q --directory-prefix=${libPath} ${url}`);
+    console.log(`Downloading '${url}'`);
 
-  if (!isBinaryExists() || !await validateBinary()) {
-    throw new Error(`Downloaded binary checksum mismatch, cannot complete bootstrap`);
+    mkdir('-p', libPath);
+    rm('-rf', localBinarypath);
+
+    await asyncExec(`wget -q --directory-prefix=${libPath} ${url}`);
+    if (!isBinaryExists() || !await validateBinary()) {
+      throw new Error(`Downloaded binary checksum mismatch, cannot complete bootstrap`);
+    }
   }
 })();

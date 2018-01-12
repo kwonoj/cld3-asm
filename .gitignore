@@ -9,7 +9,7 @@ node_modules/
 typings/
 
 # Wasm binary
-src/lib/cld3.js
+src/lib/cld3.*
 
 # Generated
 dist/
