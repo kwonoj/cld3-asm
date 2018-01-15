@@ -12,7 +12,7 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     },
-    "cld3-version": "fe2f886-180101"
+    "cld3-version": "f291b8d-180115"
   },
   "lint-staged": {
     "*.{ts,js}": [
@@ -54,7 +54,7 @@
   },
   "homepage": "https://github.com/kwonoj/cld3-asm#readme",
   "devDependencies": {
-    "@commitlint/cli": "^6.0.1",
+    "@commitlint/cli": "^6.0.2",
     "@commitlint/config-angular": "^6.0.2",
     "@types/chai": "^4.1.0",
     "@types/jest": "^22.0.1",
@@ -72,7 +72,7 @@
     "lodash": "^4.17.4",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.10.2",
-    "shelljs": "^0.7.8",
+    "shelljs": "^0.8.0",
     "shx": "^0.2.2",
     "ts-jest": "^22.0.1",
     "ts-node": "^4.1.0",
