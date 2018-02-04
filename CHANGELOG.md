@@ -1,3 +1,18 @@
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/kwonoj/cld3-asm/compare/v1.0.0...v1.0.1) (2018-02-04)
+
+
+### Bug Fixes
+
+* **package:** update utf8 to version 3.0.0 ([ac47f89](https://github.com/kwonoj/cld3-asm/commit/ac47f89))
+
+
+### Features
+
+* **cld3:** bump up cld3 binary ([b3e37b6](https://github.com/kwonoj/cld3-asm/commit/b3e37b6))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/kwonoj/cld3-asm/compare/v0.0.11...v1.0.0) (2017-11-30)
 
