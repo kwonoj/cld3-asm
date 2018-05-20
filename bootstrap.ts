@@ -15,6 +15,7 @@ const { config } = require('./package.json');
 // Package.json defines `cld3-version` under `config` section to find corresponding release version
 const version = config['cld3-version'];
 const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
 const asyncExec = promisify(exec);
 
 /**
@@ -65,4 +66,14 @@ const getRemoteChecksum = (url: string) => {
       throw new Error(`Downloaded binary checksum mismatch, cannot complete bootstrap`);
     }
   }
+
+  await writeFile('./src/wasmVersion.ts',
+`/**
+ * Metadata of wasm binary.
+ * Do not manually edit: this is auto-generated when installing new binary.
+ */
+export const wasmVersion = {
+  name: 'cld3',
+  version: '${version}'
+};`);
 })();

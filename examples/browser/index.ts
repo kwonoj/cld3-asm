@@ -6,7 +6,9 @@ import { runCld } from '../runCld';
 enableLogger(console.log.bind(console));
 
 const runBrowserCld = async () => {
-  const cldFactory = await loadModule();
+  const cldFactory = await loadModule(undefined, {
+    endpoint: '../../src/lib/cld3.wasm'
+  });
 
   runCld(cldFactory);
 };

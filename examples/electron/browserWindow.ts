@@ -4,7 +4,9 @@ enableLogger(console.log.bind(console));
 
 const init = async () => {
   try {
-    const cldFactory = await loadModule();
+    const cldFactory = await loadModule(undefined, {
+      locationPath: '../../src/lib'
+    });
     const cld = cldFactory.create(10, 1000);
 
     //demo purpose only: hook input event then run cld each time input emits value
