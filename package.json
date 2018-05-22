@@ -60,7 +60,7 @@
     "@types/jest": "^22.0.1",
     "@types/lodash": "^4.14.92",
     "@types/node": "^10.0.3",
-    "@types/shelljs": "^0.7.7",
+    "@types/shelljs": "^0.8.0",
     "@types/utf8": "^2.1.6",
     "chai": "^4.1.1",
     "commitizen": "2.9.6",
