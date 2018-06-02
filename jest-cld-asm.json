@@ -6,7 +6,6 @@
     "**/spec/cld-asm/**/*-spec.ts"
   ],
   "bail": true,
-  "mapCoverage": true,
   "testEnvironment": "node",
   "moduleFileExtensions": [
     "js",
