@@ -74,7 +74,7 @@
     "prettier": "^1.13.5",
     "shelljs": "^0.8.2",
     "shx": "^0.3.0",
-    "ts-jest": "^22.4.6",
+    "ts-jest": "^23.0.0",
     "ts-node": "^7.0.0",
     "tslint": "^5.10.0",
     "tslint-no-unused-expression-chai": "0.1.3",
