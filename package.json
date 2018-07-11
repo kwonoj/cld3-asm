@@ -81,7 +81,7 @@
     "typescript": "^2.9.2"
   },
   "dependencies": {
-    "emscripten-wasm-loader": "^1.0.0",
+    "emscripten-wasm-loader": "^2.0.0",
     "tslib": "^1.9.2",
     "utf8": "^3.0.0"
   }
