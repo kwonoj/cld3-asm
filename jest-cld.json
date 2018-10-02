@@ -1,7 +1,5 @@
 {
-  "transform": {
-    ".(js|jsx|ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-  },
+  "preset": "ts-jest",
   "testMatch": [
     "**/spec/cld/**/*-spec.ts"
   ],
@@ -13,6 +11,9 @@
     "json",
     "ts",
     "tsx"
+  ],
+  "reporters": [
+    "jest-spin-reporter"
   ],
   "testPathIgnorePatterns": [
     "/.tmp/"

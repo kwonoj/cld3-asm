@@ -1,7 +1,5 @@
 {
-  "transform": {
-    ".(js|jsx|ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-  },
+  "preset": "ts-jest",
   "testMatch": [
     "**/spec/cld-asm/**/*-spec.ts"
   ],
@@ -16,6 +14,9 @@
   ],
   "testPathIgnorePatterns": [
     "/.tmp/"
+  ],
+  "reporters": [
+    "jest-spin-reporter"
   ],
   "coverageReporters": [
     "lcov"
