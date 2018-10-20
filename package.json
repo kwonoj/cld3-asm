@@ -60,7 +60,7 @@
     "@types/shelljs": "^0.8.0",
     "@types/utf8": "^2.1.6",
     "chai": "^4.2.0",
-    "commitizen": "3.0.3",
+    "commitizen": "3.0.4",
     "conventional-changelog-cli": "^2.0.5",
     "cz-conventional-changelog": "2.1.0",
     "husky": "^1.1.0",
