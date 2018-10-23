@@ -7,7 +7,7 @@ cache:
 
 env:
   matrix:
-  - NODE_VER=8 FULL_VALIDATE=true
+  - NODE_VER=10 FULL_VALIDATE=true
 
 matrix:
   fast_finish: true
@@ -25,8 +25,7 @@ install:
 before_script: greenkeeper-lockfile-update
 
 script:
-  - npm run build
-  - npm test
+  - npm run prepublishOnly
 
 after_script: greenkeeper-lockfile-upload
 

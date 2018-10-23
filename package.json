@@ -2,8 +2,13 @@
   "name": "cld3-asm",
   "version": "1.0.1",
   "description": "WebAssembly based Javascript bindings for google compact language detector 3",
-  "main": "./dist/src/index.js",
-  "types": "./dist/src/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "browser": {
+    "./dist/cjs/lib/cld3_node.js": "./dist/cjs/lib/cld3_web.js",
+    "./dist/cjs/lib/cld3_node.wasm": "./dist/cjs/lib/cld3_web.wasm"
+  },
   "engines": {
     "npm": ">=3.0.0",
     "node": ">=8.0.0"
@@ -22,14 +27,15 @@
     ]
   },
   "scripts": {
+    "prepublishOnly": "npm-run-all build:* test",
     "prepare": "ts-node bootstrap.ts",
-    "prepublishOnly": "npm-run-all build test",
     "test:cld": "jest --config jest-cld.json",
     "test:cld-asm": "jest --config jest-cld-asm.json --coverage",
     "test": "npm-run-all test:*",
     "lint": "tslint -c tslint.json -p tsconfig.json \"src/**/*.ts\" \"spec/**/*.ts\"",
     "lint:staged": "lint-staged",
-    "build": "shx rm -rf ./dist && tsc && shx cp -r ./src/lib ./dist/src",
+    "build:tsc": "tsc -b --verbose ./src/tsconfig.cjs.json ./src/tsconfig.esm.json ./src/tsconfig.types.json ./spec/tsconfig.json",
+    "build:lib": "shx cp -r ./src/lib ./dist/cjs && shx cp -r ./src/lib ./dist/esm",
     "build:clean": "shx rm -rf ./dist",
     "commit": "git-cz -S",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
@@ -87,7 +93,7 @@
     "hooks": {
       "commit-msg": "commitlint -e",
       "pre-commit": "lint-staged",
-      "pre-push": "npm-run-all build test"
+      "pre-push": "npm-run-all build:* test"
     }
   }
 }
