@@ -23,7 +23,7 @@ const asyncExec = promisify(exec);
 const calculateChecksumFromFile = async (filePath: string) =>
   crypto
     .createHash('sha512')
-    .update(await readFile(filePath, { encoding: 'utf-8' }), 'utf8')
+    .update(await readFile(filePath))
     .digest('hex');
 
 /**
@@ -34,32 +34,74 @@ const getRemoteChecksum = (url: string) => {
   return (stdout as string).slice(0, (stdout as string).indexOf(' '));
 };
 
+enum BinaryType {
+  NODE = 'node',
+  WEB = 'web'
+}
+
+/**
+ * Actually download binary from remote. This is direct invocation to wget, need local wget installation.
+ *
+ */
+const downloadSingleBinary = async (libPath: string, binaryFile: { url: string; localBinaryPath: string }) => {
+  const { url } = binaryFile;
+  await asyncExec(`wget -q --directory-prefix=${libPath} ${url}`);
+
+  if (!validateBinaries([binaryFile])) {
+    throw new Error(`Downloaded binary checksum mismatch, cannot complete bootstrap`);
+  }
+};
+
+/**
+ * Compare checksum of given file between remote.
+ */
+const validateBinaries = async (binaryFiles: Array<{ url: string; localBinaryPath: string }>) => {
+  for (const binaryFile of binaryFiles) {
+    const { url, localBinaryPath } = binaryFile;
+
+    //Create checksum validator
+    const remoteChecksum = getRemoteChecksum(url);
+    const validateBinary = async () => (await calculateChecksumFromFile(localBinaryPath)) === remoteChecksum;
+    const isBinaryExists = () => fs.existsSync(localBinaryPath);
+
+    if (isBinaryExists() && (await validateBinary())) {
+      continue;
+    } else {
+      return false;
+    }
+  }
+
+  return true;
+};
+
 /**
  * Main script execution
  */
 (async () => {
   const libPath = path.resolve('./src/lib');
-  const fileName = 'cld3.js';
-  const localBinarypath = path.join(libPath, fileName);
+  const binaryFiles = Object.keys(BinaryType)
+    .map(x => BinaryType[x] as string)
+    // Per each environment, there are preamble script (js) and actual wasm binary
+    .reduce(
+      (acc: Array<string>, binaryType: string) => [...acc, `cld3_${binaryType}.js`, `cld3_${binaryType}.wasm`],
+      []
+    )
+    .map(fileName => ({
+      url: `https://github.com/kwonoj/docker-cld3-wasm/releases/download/${version}/${fileName}`,
+      localBinaryPath: path.join(libPath, fileName),
+      type: path.extname(fileName) === '.js' ? 'hex' : ('binary' as crypto.HexBase64Latin1Encoding)
+    }));
 
-  const url = `https://github.com/kwonoj/docker-cld3-wasm/releases/download/${version}/${fileName}`;
+  const isBinaryValid = await validateBinaries(binaryFiles);
 
-  //Create checksum validator
-  const remoteChecksum = getRemoteChecksum(url);
-  const validateBinary = async () => (await calculateChecksumFromFile(localBinarypath)) === remoteChecksum;
-  const isBinaryExists = () => fs.existsSync(localBinarypath);
+  if (!isBinaryValid) {
+    rm('-rf', libPath);
+    mkdir(libPath);
 
-  if (isBinaryExists() && (await validateBinary())) {
-    return;
-  }
+    console.log(`Downloading cld3 wasm binary version '${version}'`);
 
-  console.log(`Downloading cld3 wasm binary version '${version}'`);
-
-  rm('-rf', libPath);
-  mkdir(libPath);
-  await asyncExec(`wget -q --directory-prefix=${libPath} ${url}`);
-
-  if (!isBinaryExists() || !await validateBinary()) {
-    throw new Error(`Downloaded binary checksum mismatch, cannot complete bootstrap`);
+    for (const singleFile of binaryFiles) {
+      await downloadSingleBinary(libPath, singleFile);
+    }
   }
 })();
