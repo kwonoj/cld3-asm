@@ -1,3 +1,13 @@
+<a name="2.0.0-beta.2"></a>
+# [2.0.0-beta.2](https://github.com/kwonoj/cld3-asm/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2018-10-23)
+
+
+### Bug Fixes
+
+* **package:** fix build script ([205465a](https://github.com/kwonoj/cld3-asm/commit/205465a))
+
+
+
 <a name="2.0.0-beta.1"></a>
 # [2.0.0-beta.1](https://github.com/kwonoj/cld3-asm/compare/v1.0.1...v2.0.0-beta.1) (2018-10-23)
 
