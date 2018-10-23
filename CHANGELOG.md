@@ -1,3 +1,19 @@
+<a name="2.0.0-beta.1"></a>
+# [2.0.0-beta.1](https://github.com/kwonoj/cld3-asm/compare/v1.0.1...v2.0.0-beta.1) (2018-10-23)
+
+### Features
+
+* **loadmodule:** deprecate environment ([277b127](https://github.com/kwonoj/cld3-asm/commit/277b127))
+* **loadmodule:** support bundling wasm binary ([f0672da](https://github.com/kwonoj/cld3-asm/commit/f0672da))
+* **loadmodule:** support moduleinitoption ([0c3c638](https://github.com/kwonoj/cld3-asm/commit/0c3c638))
+
+
+### BREAKING CHANGES
+
+* **loadmodule:** does not allow env override anymore
+* Does not bundle wasm binary with preamble script anymore
+
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://github.com/kwonoj/cld3-asm/compare/v1.0.0...v1.0.1) (2018-02-04)
 
