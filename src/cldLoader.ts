@@ -1,5 +1,3 @@
-import { ENVIRONMENT } from 'emscripten-wasm-loader';
-import { encode } from 'utf8';
 import { CldAsmModule, ResultVector } from './cldAsmModule';
 import { CldFactory } from './cldFactory';
 import { LanguageCode } from './languageCode';
@@ -27,16 +25,16 @@ const munge_vector = (vector: ResultVector) => {
  *
  * @returns {CldFactory} Factory function manages lifecycle of cld3 language identifier.
  */
-export const cldLoader = (asmModule: CldAsmModule, _environment: ENVIRONMENT): CldFactory => ({
+export const cldLoader = (asmModule: CldAsmModule): CldFactory => ({
   create: (
     minBytes: number = asmModule.NNetLanguageIdentifier.kMinNumBytesToConsider,
     maxBytes: number = asmModule.NNetLanguageIdentifier.kMaxNumBytesToConsider
   ) => {
     const identifier = new asmModule.NNetLanguageIdentifier(minBytes, maxBytes);
     return {
-      findLanguage: (text: string) => identifier.FindLanguage(encode(text)),
+      findLanguage: (text: string) => identifier.FindLanguage(text),
       findMostFrequentLanguages: (text: string, numLangs: number) => {
-        const resultVector = identifier.FindTopNMostFreqLangs(encode(text), numLangs);
+        const resultVector = identifier.FindTopNMostFreqLangs(text, numLangs);
         const resultArray = munge_vector(resultVector);
         return resultArray.filter(x => !!x && !!x.language && x.language !== LanguageCode.UNKNOWN);
       },
