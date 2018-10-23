@@ -18,24 +18,28 @@ module.exports = {
         loader: 'ts-loader',
         exclude: /node_modules/,
         options: {
-          /**
-           * Keep TypeScript errors from preventing dev builds,
-           * to speed up iteration time.
-           */
           transpileOnly: true,
           compilerOptions: {
             module: 'esnext',
-            /**
-             * Do not check lib as well, as we're doing transpile only
-             * doesn't have meaning to check lib types as well.
-             */
             skipLibCheck: true,
             skipDefaultLibCheck: true
           }
         }
+      },
+      /**
+       * Let file loader copies wasm binary instead of bundling
+       */
+      {
+        test: /.wasm$/,
+        type: 'javascript/auto',
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]'
+        }
       }
     ]
   },
+  target: 'web',
   node: {
     fs: 'empty'
   },
