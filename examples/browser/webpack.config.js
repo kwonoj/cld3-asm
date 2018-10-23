@@ -10,20 +10,34 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
   },
+  mode: 'development',
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.tsx?$/,
-        exclude: [/node_modules/],
-        loader: 'ts-loader'
+        loader: 'ts-loader',
+        exclude: /node_modules/,
+        options: {
+          /**
+           * Keep TypeScript errors from preventing dev builds,
+           * to speed up iteration time.
+           */
+          transpileOnly: true,
+          compilerOptions: {
+            module: 'esnext',
+            /**
+             * Do not check lib as well, as we're doing transpile only
+             * doesn't have meaning to check lib types as well.
+             */
+            skipLibCheck: true,
+            skipDefaultLibCheck: true
+          }
+        }
       }
     ]
   },
   node: {
     fs: 'empty'
-  },
-  devServer: {
-    contentBase: path.join(__dirname, '../../')
   },
   plugins: [
     new HtmlWebpackPlugin({
