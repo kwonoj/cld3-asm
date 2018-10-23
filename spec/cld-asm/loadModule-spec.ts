@@ -1,8 +1,12 @@
 import { expect } from 'chai';
-import { ENVIRONMENT } from 'emscripten-wasm-loader';
+import { getModuleLoader as getModuleLoaderMock, isNode } from 'emscripten-wasm-loader';
 import { loadModule } from '../../src/loadModule';
 
-jest.mock('../../src/lib/cld3', () => jest.fn(), { virtual: true });
+const webcld3Mock = require('../../src/lib/cld3_web'); //tslint:disable-line:no-require-imports no-var-requires
+const nodecld3Mock = require('../../src/lib/cld3_node'); //tslint:disable-line:no-require-imports no-var-requires
+
+jest.mock('../../src/lib/cld3_web', () => jest.fn(), { virtual: true });
+jest.mock('../../src/lib/cld3_node', () => jest.fn(), { virtual: true });
 jest.mock('../../src/cldLoader');
 jest.mock('emscripten-wasm-loader', () => ({
   isWasmEnabled: jest.fn(),
@@ -14,25 +18,27 @@ jest.mock('emscripten-wasm-loader', () => ({
   }
 }));
 
-const { getModuleLoader: getModuleLoaderMock } = require('emscripten-wasm-loader'); //tslint:disable-line:no-require-imports no-var-requires
-
 describe('loadModule', () => {
-  it('should create moduleLoader on browser environment override', async () => {
+  it('should create moduleLoader on browser', async () => {
     const mockModuleLoader = jest.fn();
-    getModuleLoaderMock.mockImplementationOnce((cb: Function) => {
+    (isNode as jest.Mock).mockReturnValueOnce(false);
+
+    (getModuleLoaderMock as jest.Mock).mockImplementationOnce((cb: Function) => {
       cb();
       return mockModuleLoader;
     });
-    await loadModule(ENVIRONMENT.WEB);
+    await loadModule();
 
-    expect(mockModuleLoader.mock.calls[0]).to.deep.equal([ENVIRONMENT.WEB]);
+    expect((getModuleLoaderMock as jest.Mock).mock.calls[0][1]).to.equal(webcld3Mock);
   });
 
-  it('should create module on node environmnet override', async () => {
+  it('should create module on node', async () => {
     const mockModuleLoader = jest.fn();
-    getModuleLoaderMock.mockReturnValueOnce(mockModuleLoader);
-    await loadModule(ENVIRONMENT.NODE);
+    (isNode as jest.Mock).mockReturnValueOnce(true);
 
-    expect(mockModuleLoader.mock.calls[0]).to.deep.equal([ENVIRONMENT.NODE]);
+    (getModuleLoaderMock as jest.Mock).mockReturnValueOnce(mockModuleLoader);
+    await loadModule();
+
+    expect((getModuleLoaderMock as jest.Mock).mock.calls[0][1]).to.equal(nodecld3Mock);
   });
 });

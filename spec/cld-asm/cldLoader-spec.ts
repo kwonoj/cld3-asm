@@ -4,9 +4,6 @@ import { LanguageIdentifier } from '../../src/cldFactory';
 import { cldLoader } from '../../src/cldLoader';
 import { LanguageCode } from '../../src/languageCode';
 
-jest.mock('utf8');
-const encodeMock = require('utf8').encode; //tslint:disable-line:no-require-imports no-var-requires
-
 describe('cldLoader', () => {
   let asmModule: CldAsmModule;
   beforeEach(() => (asmModule = {} as any));
@@ -23,7 +20,7 @@ describe('cldLoader', () => {
       return ctor;
     })();
 
-    cldLoader(asmModule, null as any).create();
+    cldLoader(asmModule).create();
 
     expect(called).to.deep.equal([11, 22]);
   });
@@ -40,7 +37,7 @@ describe('cldLoader', () => {
       return ctor;
     })();
 
-    cldLoader(asmModule, null as any).create(22, 33);
+    cldLoader(asmModule).create(22, 33);
 
     expect(called).to.deep.equal([22, 33]);
   });
@@ -61,39 +58,34 @@ describe('cldLoader', () => {
       };
 
       (asmModule as any).NNetLanguageIdentifier = (() => (..._args: Array<any>) => mockIdentifier)();
-      identifier = cldLoader(asmModule, null as any).create(10, 10);
+      identifier = cldLoader(asmModule).create(10, 10);
     });
 
-    it('should find language with utf8 encoded', () => {
+    it('should find language', () => {
       const text = 'meh';
-      const encoded = 'boo';
 
-      const dummyReturn = { text, encoded };
+      const dummyReturn = { text };
       mockIdentifier.FindLanguage.mockReturnValueOnce(dummyReturn);
-      encodeMock.mockReturnValueOnce(encoded);
       const ret = identifier.findLanguage(text);
 
       //we do not verify actual wasm binary behavior, only checks input - output logic.
       //actual integration test are placed under cld-spec.
       expect(ret).to.deep.equal(dummyReturn);
 
-      expect(encodeMock.mock.calls).to.have.lengthOf(1);
       expect(mockIdentifier.FindLanguage.mock.calls).to.have.lengthOf(1);
-      expect(mockIdentifier.FindLanguage.mock.calls[0]).to.deep.equal([encoded]);
+      expect(mockIdentifier.FindLanguage.mock.calls[0]).to.deep.equal([text]);
     });
 
-    it('should find most frequent languages with utf8 encoded', () => {
+    it('should find most frequent languages', () => {
       const text = 'meh';
-      const encoded = 'boo';
 
-      const dummyReturnValue = [{ language: text }, { language: encoded }];
+      const dummyReturnValue = [{ language: text }];
       const dummyReturn = {
         size: () => 2,
         get: (idx: number) => dummyReturnValue[idx]
       };
 
       mockIdentifier.FindTopNMostFreqLangs.mockReturnValueOnce(dummyReturn);
-      encodeMock.mockReturnValueOnce(encoded);
       const ret = identifier.findMostFrequentLanguages(text, 3);
 
       //we do not verify actual wasm binary behavior, only checks input - output logic.
@@ -101,12 +93,11 @@ describe('cldLoader', () => {
       expect(ret).to.deep.equal(dummyReturnValue);
 
       expect(mockIdentifier.FindTopNMostFreqLangs.mock.calls).to.have.lengthOf(1);
-      expect(mockIdentifier.FindTopNMostFreqLangs.mock.calls[0]).to.deep.equal([encoded, 3]);
+      expect(mockIdentifier.FindTopNMostFreqLangs.mock.calls[0]).to.deep.equal([text, 3]);
     });
 
     it('should return only found most frequent languages, filter unknown language', () => {
       const text = 'meh';
-      const encoded = 'boo';
 
       const dummyReturnValue = [{ language: text }, { language: LanguageCode.UNKNOWN }];
       const dummyReturn = {
@@ -115,7 +106,6 @@ describe('cldLoader', () => {
       };
 
       mockIdentifier.FindTopNMostFreqLangs.mockReturnValueOnce(dummyReturn);
-      encodeMock.mockReturnValueOnce(encoded);
       const ret = identifier.findMostFrequentLanguages(text, 3);
 
       //we do not verify actual wasm binary behavior, only checks input - output logic.
@@ -123,7 +113,7 @@ describe('cldLoader', () => {
       expect(ret).to.deep.equal([{ language: text }]);
 
       expect(mockIdentifier.FindTopNMostFreqLangs.mock.calls).to.have.lengthOf(1);
-      expect(mockIdentifier.FindTopNMostFreqLangs.mock.calls[0]).to.deep.equal([encoded, 3]);
+      expect(mockIdentifier.FindTopNMostFreqLangs.mock.calls[0]).to.deep.equal([text, 3]);
     });
 
     it('should able to destroy instance', () => {

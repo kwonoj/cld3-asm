@@ -1,5 +1,5 @@
 module.exports = wallaby => ({
-  files: ['src/**/*.ts'],
+  files: ['src/**/*.ts', { pattern: 'jest-cld-asm.json', instrument: false, load: true }],
 
   tests: ['spec/cld-asm/**/*.ts'],
 
@@ -23,5 +23,15 @@ module.exports = wallaby => ({
         filename: file.path,
         presets: ['babel-preset-jest']
       })
+  },
+
+  setup: w => {
+    const path = require('path');
+
+    const jestConfig = (({ resetMocks }) => ({
+      resetMocks
+    }))(require('./jest-cld-asm.json'));
+
+    w.testFramework.configure(jestConfig);
   }
 });
