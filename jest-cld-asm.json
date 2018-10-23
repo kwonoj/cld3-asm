@@ -5,6 +5,7 @@
   ],
   "bail": true,
   "testEnvironment": "node",
+  "resetMocks": true,
   "moduleFileExtensions": [
     "js",
     "jsx",
