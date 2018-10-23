@@ -86,7 +86,7 @@
     "utf8": "^3.0.0"
   },
   "dependencies": {
-    "emscripten-wasm-loader": "^2.2.1",
+    "emscripten-wasm-loader": "^2.2.2",
     "tslib": "^1.9.3"
   },
   "husky": {

@@ -12,16 +12,29 @@ import { log } from './util/logger';
  *
  * @returns {() => Promise<CldFactory>} Function to load module
  */
-const loadModule = async (moduleInitOption?: ModuleInitOption) => {
+const loadModule = async (moduleInitOption?: Partial<ModuleInitOption>) => {
   log(`loadModule: loading cld3 module`);
 
   //imports MODULARIZED emscripten preamble
   const runtimeModule = isNode() ? require(`./lib/cld3_node`) : require(`./lib/cld3_web`); //tslint:disable-line:no-require-imports no-var-requires
 
+  // in Browser environment if remote endpoint is not specified cld3-asm overrides preamble's locateFile to provide wasm binary
+  // instead of preamble triggers fetch to file:// resource paths.
+  // Bundler (i.e webpack) should configure proper loader settings for this.
+  const isPathOverrideRequired = !isNode() && (!moduleInitOption || !moduleInitOption.binaryRemoteEndpoint);
+  const overriddenModule = !isPathOverrideRequired
+    ? undefined
+    : {
+        locateFile: (filePath: string) =>
+          filePath.endsWith('.wasm')
+            ? require('./lib/cld3_web.wasm') //tslint:disable-line:no-require-imports no-var-requires
+            : filePath
+      };
+
   const moduleLoader = await getModuleLoader<CldFactory, CldAsmModule>(
     (runtime: CldAsmModule) => cldLoader(runtime),
     runtimeModule,
-    undefined,
+    overriddenModule,
     moduleInitOption
   );
 
