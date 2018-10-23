@@ -1,4 +1,5 @@
 import { getModuleLoader, isNode } from 'emscripten-wasm-loader';
+import { ModuleInitOption } from 'emscripten-wasm-loader/dist/types/getModuleLoader';
 import { CldAsmModule } from './cldAsmModule';
 import { CldFactory } from './cldFactory';
 import { cldLoader } from './cldLoader';
@@ -7,11 +8,11 @@ import { log } from './util/logger';
 /**
  * Load, initialize wasm / asm.js binary to use actual cld wasm instances.
  *
- * @param {environment} [ENVIRONMENT] For overriding running environment
+ * @param {moduleInitOption} [ModuleInitOption] additional option to configure module loader
  *
- * @returns {(environment?: ENVIRONMENT) => Promise<CldFactory>} Function to load module
+ * @returns {() => Promise<CldFactory>} Function to load module
  */
-const loadModule = async () => {
+const loadModule = async (moduleInitOption?: ModuleInitOption) => {
   log(`loadModule: loading cld3 module`);
 
   //imports MODULARIZED emscripten preamble
@@ -19,7 +20,9 @@ const loadModule = async () => {
 
   const moduleLoader = await getModuleLoader<CldFactory, CldAsmModule>(
     (runtime: CldAsmModule) => cldLoader(runtime),
-    runtimeModule
+    runtimeModule,
+    undefined,
+    moduleInitOption
   );
 
   return moduleLoader();
