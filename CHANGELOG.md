@@ -1,3 +1,13 @@
+<a name="2.0.0-beta.3"></a>
+# [2.0.0-beta.3](https://github.com/kwonoj/cld3-asm/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2018-10-24)
+
+
+### Features
+
+* **loadmodule:** expose locatebinary ([606ff1b](https://github.com/kwonoj/cld3-asm/commit/606ff1b))
+
+
+
 <a name="2.0.0-beta.2"></a>
 # [2.0.0-beta.2](https://github.com/kwonoj/cld3-asm/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2018-10-23)
 
