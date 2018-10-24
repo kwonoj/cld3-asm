@@ -22,7 +22,7 @@ jest.mock('emscripten-wasm-loader', () => ({
 describe('loadModule', () => {
   it('should create moduleLoader on browser', async () => {
     const mockModuleLoader = jest.fn();
-    (isNode as jest.Mock).mockReturnValueOnce(false);
+    (isNode as jest.Mock).mockReturnValue(false);
 
     (getModuleLoaderMock as jest.Mock).mockImplementationOnce((cb: Function) => {
       cb();
@@ -35,7 +35,7 @@ describe('loadModule', () => {
 
   it('should create module on node', async () => {
     const mockModuleLoader = jest.fn();
-    (isNode as jest.Mock).mockReturnValueOnce(true);
+    (isNode as jest.Mock).mockReturnValue(true);
 
     (getModuleLoaderMock as jest.Mock).mockReturnValueOnce(mockModuleLoader);
     await loadModule();
@@ -43,20 +43,43 @@ describe('loadModule', () => {
     expect((getModuleLoaderMock as jest.Mock).mock.calls[0][1]).to.equal(nodecld3Mock);
   });
 
-  it('should use remoteEndpoint on browser', async () => {
+  it('should use lookupBinary on browser', async () => {
     const mockModuleLoader = jest.fn();
-    (isNode as jest.Mock).mockReturnValueOnce(false);
+    (isNode as jest.Mock).mockReturnValue(false);
 
     (getModuleLoaderMock as jest.Mock).mockReturnValueOnce(mockModuleLoader);
-    await loadModule({ binaryRemoteEndpoint: 'dummy' });
+    await loadModule({ locateBinary: () => 'dummy' });
 
-    expect((getModuleLoaderMock as jest.Mock).mock.calls[0][2]).to.be.undefined;
-    expect((getModuleLoaderMock as jest.Mock).mock.calls[0][3]).to.deep.equal({ binaryRemoteEndpoint: 'dummy' });
+    expect((getModuleLoaderMock as jest.Mock).mock.calls[0][2].locateFile('test.wasm')).to.equal('dummy');
   });
 
-  it('should override path for wasm binary on browser without remote endpoint', async () => {
+  it('should use lookupBinary on node', async () => {
     const mockModuleLoader = jest.fn();
-    (isNode as jest.Mock).mockReturnValueOnce(false);
+    (isNode as jest.Mock).mockReturnValue(true);
+
+    (getModuleLoaderMock as jest.Mock).mockReturnValueOnce(mockModuleLoader);
+    await loadModule({ locateBinary: () => 'dummy' });
+
+    const { locateFile } = (getModuleLoaderMock as jest.Mock).mock.calls[0][2];
+    expect(locateFile('test.wasm')).to.equal('dummy');
+  });
+
+  it('should not override path for wasm binary on node', async () => {
+    const mockModuleLoader = jest.fn();
+    (isNode as jest.Mock).mockReturnValue(true);
+
+    (getModuleLoaderMock as jest.Mock).mockImplementationOnce((cb: Function) => {
+      cb();
+      return mockModuleLoader;
+    });
+    await loadModule();
+
+    expect((getModuleLoaderMock as jest.Mock).mock.calls[0][2]).to.be.undefined;
+  });
+
+  it('should override path for wasm binary on browser', async () => {
+    const mockModuleLoader = jest.fn();
+    (isNode as jest.Mock).mockReturnValue(false);
 
     (getModuleLoaderMock as jest.Mock).mockImplementationOnce((cb: Function) => {
       cb();

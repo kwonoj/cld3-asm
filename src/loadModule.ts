@@ -1,5 +1,4 @@
 import { getModuleLoader, isNode } from 'emscripten-wasm-loader';
-import { ModuleInitOption } from 'emscripten-wasm-loader/dist/types/getModuleLoader';
 import { CldAsmModule } from './cldAsmModule';
 import { CldFactory } from './cldFactory';
 import { cldLoader } from './cldLoader';
@@ -8,34 +7,41 @@ import { log } from './util/logger';
 /**
  * Load, initialize wasm / asm.js binary to use actual cld wasm instances.
  *
- * @param {moduleInitOption} [ModuleInitOption] additional option to configure module loader
+ * @param [InitOptions] Options to initialize cld3 wasm binary.
+ * @param {number} [InitOptions.timeout] - timeout to wait wasm binary compilation & load.
+ * @param {string | object} [InitOptions.locateBinary] - custom resolution logic for wasm binary.
+ * It could be either remote endpoint url, or loader-returned object for bundler. Check examples/browser_* for references.
  *
  * @returns {() => Promise<CldFactory>} Function to load module
  */
-const loadModule = async (moduleInitOption?: Partial<ModuleInitOption>) => {
+const loadModule = async ({
+  timeout,
+  locateBinary
+}: Partial<{ timeout: number; locateBinary: (filePath: string) => string | object }> = {}) => {
   log(`loadModule: loading cld3 module`);
 
   //imports MODULARIZED emscripten preamble
   const runtimeModule = isNode() ? require(`./lib/cld3_node`) : require(`./lib/cld3_web`); //tslint:disable-line:no-require-imports no-var-requires
 
-  // in Browser environment if remote endpoint is not specified cld3-asm overrides preamble's locateFile to provide wasm binary
-  // instead of preamble triggers fetch to file:// resource paths.
-  // Bundler (i.e webpack) should configure proper loader settings for this.
-  const isPathOverrideRequired = !isNode() && (!moduleInitOption || !moduleInitOption.binaryRemoteEndpoint);
-  const overriddenModule = !isPathOverrideRequired
-    ? undefined
-    : {
-        locateFile: (filePath: string) =>
-          filePath.endsWith('.wasm')
-            ? require('./lib/cld3_web.wasm') //tslint:disable-line:no-require-imports no-var-requires
-            : filePath
-      };
+  //tslint:disable-next-line:no-require-imports no-var-requires
+  const lookupBinary = locateBinary || ((_filePath: string) => require('./lib/cld3_web.wasm'));
+
+  //Build module object to construct wasm binary module via emscripten preamble.
+  //This allows to override default wasm binary resolution in preamble.
+  //By default, cld3-asm overrides to direct require to binary on *browser* environment to allow bundler like webpack resolves it.
+  //On node, it relies on default resolution logic.
+  const overriddenModule =
+    isNode() && !locateBinary
+      ? undefined
+      : {
+          locateFile: (filePath: string) => (filePath.endsWith('.wasm') ? lookupBinary(filePath) : filePath)
+        };
 
   const moduleLoader = await getModuleLoader<CldFactory, CldAsmModule>(
     (runtime: CldAsmModule) => cldLoader(runtime),
     runtimeModule,
     overriddenModule,
-    moduleInitOption
+    { timeout }
   );
 
   return moduleLoader();
