@@ -7,7 +7,6 @@ typings/
 .vscode/
 src/
 test/
-!dist/src
 examples/
 symbols/
 .travis.yml
@@ -17,6 +16,7 @@ jest-cld-asm.json
 tsconfg.json
 tslint.json
 wallaby.js
-dist/src/lib/README.md
 commitlint.config.js
 tsconfig.json
+bootstrap.ts
+*.tgz
