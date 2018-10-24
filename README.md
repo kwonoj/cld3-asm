@@ -30,10 +30,10 @@ const cldFactory = await loadModule();
 `loadModule` loads wasm binary, initialize it, and returns factory function to create instance of cld3 [language identifier.](https://github.com/kwonoj/cld3-asm/blob/1a86bb67abcebc2cd0e90a83149292eb044e4122/src/cldAsmModule.ts#L70-L97)
 
 ```js
-loadModule(environment?: ENVIRONMENT): Promise<CldFactory>
+loadModule({timeout?: number, locateBinary?: (wasmPath: string) => string | object}): Promise<CldFactory>
 ```
 
-It accepts `environment` as option, allow to override running environment and ignores internal runtime detection. This is mostly for [Electron](https://electron.atom.io/)'s renderer process where node.js and `fetch` are available both, to selectively opt-in which way to use. It is important to note `loadModule` doesn't interop incorrect option value matching, like try to load correct binary when supply endpoint to file path with set env to browser.
+It allows to specify timeout to wait until wasm binary compliation & load, also allows to override to lookup binary of wasm. Based on environment & bundling configurations, it is not sufficient to rely on default resolution logic. `locateBinary` expects to return path of binary (i.e remote endpoint url) or loader-specific object if it's bundled by bundler. Check [examples](https://github.com/kwonoj/cld3-asm/tree/master/examples) for usecases.
 
 ## Creating language identifier
 

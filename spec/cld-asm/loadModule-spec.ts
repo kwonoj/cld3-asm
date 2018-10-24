@@ -12,11 +12,7 @@ jest.mock('../../src/cldLoader');
 jest.mock('emscripten-wasm-loader', () => ({
   isWasmEnabled: jest.fn(),
   isNode: jest.fn(),
-  getModuleLoader: jest.fn(),
-  ENVIRONMENT: {
-    WEB: 'WEB',
-    NODE: 'NODE'
-  }
+  getModuleLoader: jest.fn()
 }));
 
 describe('loadModule', () => {
