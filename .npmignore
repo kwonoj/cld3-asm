@@ -5,7 +5,6 @@ yarn.lock
 coverage
 typings/
 .vscode/
-src/
 test/
 examples/
 symbols/

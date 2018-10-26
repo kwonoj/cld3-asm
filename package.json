@@ -27,16 +27,16 @@
     ]
   },
   "scripts": {
-    "prepublishOnly": "npm-run-all build:clean build:tsc build:lib test",
+    "prepublishOnly": "npm-run-all build:clean build build:lib test",
     "prepare": "ts-node bootstrap.ts",
     "test:cld": "jest --config jest-cld.json",
     "test:cld-asm": "jest --config jest-cld-asm.json --coverage",
     "test": "npm-run-all test:*",
     "lint": "tslint -c tslint.json -p tsconfig.json \"src/**/*.ts\" \"spec/**/*.ts\"",
     "lint:staged": "lint-staged",
-    "build:tsc": "tsc -b --verbose ./src/tsconfig.cjs.json ./src/tsconfig.esm.json ./src/tsconfig.types.json ./spec/tsconfig.json",
-    "build:lib": "shx cp -r ./src/lib ./dist/cjs && shx cp -r ./src/lib ./dist/esm",
+    "build": "tsc -b --verbose ./src/tsconfig.cjs.json ./src/tsconfig.esm.json ./src/tsconfig.types.json ./spec/tsconfig.json",
     "build:clean": "shx rm -rf ./dist",
+    "build:lib": "shx cp -r ./src/lib ./dist/cjs && shx cp -r ./src/lib ./dist/esm",
     "commit": "git-cz -S",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
@@ -93,7 +93,7 @@
     "hooks": {
       "commit-msg": "commitlint -e",
       "pre-commit": "lint-staged",
-      "pre-push": "npm-run-all build:* test"
+      "pre-push": "npm run prepublishOnly"
     }
   }
 }
