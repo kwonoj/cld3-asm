@@ -1,3 +1,8 @@
+<a name="2.0.0-beta.4"></a>
+# [2.0.0-beta.4](https://github.com/kwonoj/cld3-asm/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2018-10-31)
+
+- browser field update for esm build
+
 <a name="2.0.0-beta.3"></a>
 # [2.0.0-beta.3](https://github.com/kwonoj/cld3-asm/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2018-10-24)
 
