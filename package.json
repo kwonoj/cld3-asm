@@ -19,7 +19,7 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     },
-    "cld3-version": "dc4f4a2-181022"
+    "cld3-version": "6775a8a-190131"
   },
   "lint-staged": {
     "*.{ts,js}": [
@@ -88,7 +88,7 @@
     "utf8": "^3.0.0"
   },
   "dependencies": {
-    "emscripten-wasm-loader": "^2.2.2",
+    "emscripten-wasm-loader": "^2.2.3",
     "tslib": "^1.9.3"
   },
   "husky": {
