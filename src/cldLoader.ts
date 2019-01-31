@@ -17,7 +17,7 @@ const PTR_SIZE = 4;
  *
  * @returns {CldFactory} Factory function manages lifecycle of cld3 language identifier.
  */
-export const cldLoader = (asmModule: CldAsmModule, _environment: ENVIRONMENT): CldFactory => {
+export const cldLoader = (asmModule: CldAsmModule, _environment?: ENVIRONMENT): CldFactory => {
   const { cwrap, _free, allocateUTF8, _malloc, getValue, Pointer_stringify, setValue } = asmModule;
   const cldInterface = wrapCldInterface(cwrap);
 
@@ -107,7 +107,9 @@ export const cldLoader = (asmModule: CldAsmModule, _environment: ENVIRONMENT): C
           );
 
           // if `numLangs` exceeds number of languages detected rest of array will be filled with default result with unknown language identifier
-          const ret = resultStructsPtr.map((ptr) => volatileReadResultStruct(ptr)).filter((x) => x.language !== unknownIdentifier);
+          const ret = resultStructsPtr
+            .map(ptr => volatileReadResultStruct(ptr))
+            .filter(x => x.language !== unknownIdentifier);
 
           // each LanguageResult struct is freed via `volatileReadResultStruct` already. delete allocated memory for array itself.
           _free(languageListPtr);
