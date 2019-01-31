@@ -49,6 +49,11 @@ export const cldLoader = (asmModule: CldAsmModule, _environment?: ENVIRONMENT): 
     languageResultStructSize
   });
 
+  // both identifier should match all time, check when initialize binary
+  if (unknownIdentifier !== LanguageCode.UNKNOWN) {
+    throw new Error(`cld3 binary unknownIdentifier constant does not match to LanguageCode enum`);
+  }
+
   /**
    * Wrapper function to read LanguageResult struct from pointer.
    * After interop, pointer will be freed.
@@ -80,7 +85,6 @@ export const cldLoader = (asmModule: CldAsmModule, _environment?: ENVIRONMENT): 
       const cldPtr = cldInterface.create(minBytes, maxBytes);
 
       return {
-        unknownIdentifier,
         findLanguage: (text: string) => {
           // `findLanguage` requires caller must allocate memory for return value.
           const resultPtr = _malloc(languageResultStructSize);
