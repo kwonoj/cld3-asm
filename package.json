@@ -5,12 +5,6 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
-  "browser": {
-    "./dist/cjs/lib/cld3_node.js": "./dist/cjs/lib/cld3_web.js",
-    "./dist/cjs/lib/cld3_node.wasm": "./dist/cjs/lib/cld3_web.wasm",
-    "./dist/esm/lib/cld3_node.js": "./dist/esm/lib/cld3_web.js",
-    "./dist/esm/lib/cld3_node.wasm": "./dist/esm/lib/cld3_web.wasm"
-  },
   "engines": {
     "npm": ">=3.0.0",
     "node": ">=8.0.0"
