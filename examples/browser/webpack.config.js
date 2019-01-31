@@ -25,14 +25,6 @@ module.exports = {
             skipDefaultLibCheck: true
           }
         }
-      },
-      /**
-       * Let file loader copies wasm binary instead of bundling
-       */
-      {
-        test: /.wasm$/,
-        type: 'javascript/auto',
-        loader: 'file-loader'
       }
     ]
   },
