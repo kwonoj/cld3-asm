@@ -1,3 +1,14 @@
+<a name="2.0.0-beta.5"></a>
+# [2.0.0-beta.5](https://github.com/kwonoj/cld3-asm/compare/v2.0.0-beta.4...v2.0.0-beta.5) (2019-01-31)
+
+
+### Features
+
+* **loadmodule:** support environment override ([10cffa8](https://github.com/kwonoj/cld3-asm/commit/10cffa8))
+* **wrapcldinterface:** cwrap interfaces ([430f850](https://github.com/kwonoj/cld3-asm/commit/430f850))
+
+
+
 <a name="2.0.0-beta.4"></a>
 # [2.0.0-beta.4](https://github.com/kwonoj/cld3-asm/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2018-10-31)
 
