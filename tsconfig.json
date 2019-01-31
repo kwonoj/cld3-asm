@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "preserveConstEnums": true,
     "sourceMap": true,
     "suppressImplicitAnyIndexErrors": true,
     "strictNullChecks": true,
