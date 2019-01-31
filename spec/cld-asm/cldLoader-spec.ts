@@ -1,6 +1,7 @@
 import { CldAsmModule } from '../../src/cldAsmModule';
 import { LanguageIdentifier } from '../../src/cldFactory';
 import { cldLoader } from '../../src/cldLoader';
+import { LanguageCode } from '../../src/languageCode';
 import { wrapCldInterface } from '../../src/wrapCldInterface';
 
 jest.mock('../../src/wrapCldInterface');
@@ -9,7 +10,7 @@ const getAsmModule = (): CldAsmModule =>
   (({
     cwrap: jest.fn(),
     getValue: jest.fn(),
-    Pointer_stringify: jest.fn(),
+    Pointer_stringify: jest.fn(() => LanguageCode.UNKNOWN),
     allocateUTF8: jest.fn(),
     setValue: jest.fn(),
     initializeRuntime: jest.fn(),
