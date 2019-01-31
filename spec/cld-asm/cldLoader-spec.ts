@@ -1,125 +1,78 @@
-import { expect } from 'chai';
 import { CldAsmModule } from '../../src/cldAsmModule';
 import { LanguageIdentifier } from '../../src/cldFactory';
 import { cldLoader } from '../../src/cldLoader';
-import { LanguageCode } from '../../src/languageCode';
+import { wrapCldInterface } from '../../src/wrapCldInterface';
+
+jest.mock('../../src/wrapCldInterface');
+
+const getAsmModule = (): CldAsmModule =>
+  (({
+    cwrap: jest.fn(),
+    getValue: jest.fn(),
+    Pointer_stringify: jest.fn(),
+    allocateUTF8: jest.fn(),
+    setValue: jest.fn(),
+    initializeRuntime: jest.fn(),
+    _malloc: jest.fn(),
+    _free: jest.fn()
+  } as any) as CldAsmModule);
 
 describe('cldLoader', () => {
-  let asmModule: CldAsmModule;
-  beforeEach(() => (asmModule = {} as any));
+  let mockCldInterface: {
+    getUnknownIdentifier: jest.Mock;
+    getMinNumBytesDefault: jest.Mock;
+    getMaxNumBytesDefault: jest.Mock;
+    getMaxNumBytesInput: jest.Mock;
+    sizeLanguageResult: jest.Mock;
+    create: jest.Mock;
+    findLanguage: jest.Mock;
+    findTopNMostFreqLangs: jest.Mock;
+    destroy: jest.Mock;
+  };
+
+  beforeEach(() => {
+    mockCldInterface = {
+      getUnknownIdentifier: jest.fn(),
+      getMinNumBytesDefault: jest.fn(() => 11),
+      getMaxNumBytesDefault: jest.fn(() => 22),
+      getMaxNumBytesInput: jest.fn(),
+      sizeLanguageResult: jest.fn(),
+      create: jest.fn(),
+      findLanguage: jest.fn(),
+      findTopNMostFreqLangs: jest.fn(),
+      destroy: jest.fn()
+    };
+
+    (wrapCldInterface as jest.Mock<any>).mockImplementationOnce(() => mockCldInterface);
+  });
 
   it('should able to create with default bytes', () => {
-    const called: Array<number> = [];
+    mockCldInterface.getMinNumBytesDefault.mockReturnValueOnce(11);
+    mockCldInterface.getMaxNumBytesDefault.mockReturnValueOnce(22);
 
-    (asmModule as any).NNetLanguageIdentifier = (() => {
-      const ctor = (...args: Array<any>) => called.push(...args);
+    cldLoader(getAsmModule()).create();
 
-      (ctor as any).kMinNumBytesToConsider = 11;
-      (ctor as any).kMaxNumBytesToConsider = 22;
-
-      return ctor;
-    })();
-
-    cldLoader(asmModule).create();
-
-    expect(called).to.deep.equal([11, 22]);
+    expect(mockCldInterface.getMinNumBytesDefault).toBeCalledTimes(1);
+    expect(mockCldInterface.getMaxNumBytesDefault).toBeCalledTimes(1);
   });
 
   it('should able to create', () => {
-    const called: Array<number> = [];
+    cldLoader(getAsmModule()).create(22, 33);
 
-    (asmModule as any).NNetLanguageIdentifier = (() => {
-      const ctor = (...args: Array<any>) => called.push(...args);
-
-      (ctor as any).kMinNumBytesToConsider = 11;
-      (ctor as any).kMaxNumBytesToConsider = 22;
-
-      return ctor;
-    })();
-
-    cldLoader(asmModule).create(22, 33);
-
-    expect(called).to.deep.equal([22, 33]);
+    expect(mockCldInterface.create).toBeCalledWith(22, 33);
   });
 
   describe('LanguageIdentifier', () => {
     let identifier: LanguageIdentifier;
-    let mockIdentifier: {
-      FindTopNMostFreqLangs: jest.Mock<any>;
-      FindLanguage: jest.Mock<any>;
-      delete: jest.Mock<any>;
-    };
 
     beforeEach(() => {
-      mockIdentifier = {
-        FindTopNMostFreqLangs: jest.fn(),
-        FindLanguage: jest.fn(),
-        delete: jest.fn()
-      };
-
-      (asmModule as any).NNetLanguageIdentifier = (() => (..._args: Array<any>) => mockIdentifier)();
-      identifier = cldLoader(asmModule).create(10, 10);
-    });
-
-    it('should find language', () => {
-      const text = 'meh';
-
-      const dummyReturn = { text };
-      mockIdentifier.FindLanguage.mockReturnValueOnce(dummyReturn);
-      const ret = identifier.findLanguage(text);
-
-      //we do not verify actual wasm binary behavior, only checks input - output logic.
-      //actual integration test are placed under cld-spec.
-      expect(ret).to.deep.equal(dummyReturn);
-
-      expect(mockIdentifier.FindLanguage.mock.calls).to.have.lengthOf(1);
-      expect(mockIdentifier.FindLanguage.mock.calls[0]).to.deep.equal([text]);
-    });
-
-    it('should find most frequent languages', () => {
-      const text = 'meh';
-
-      const dummyReturnValue = [{ language: text }];
-      const dummyReturn = {
-        size: () => 2,
-        get: (idx: number) => dummyReturnValue[idx]
-      };
-
-      mockIdentifier.FindTopNMostFreqLangs.mockReturnValueOnce(dummyReturn);
-      const ret = identifier.findMostFrequentLanguages(text, 3);
-
-      //we do not verify actual wasm binary behavior, only checks input - output logic.
-      //actual integration test are placed under cld-spec.
-      expect(ret).to.deep.equal(dummyReturnValue);
-
-      expect(mockIdentifier.FindTopNMostFreqLangs.mock.calls).to.have.lengthOf(1);
-      expect(mockIdentifier.FindTopNMostFreqLangs.mock.calls[0]).to.deep.equal([text, 3]);
-    });
-
-    it('should return only found most frequent languages, filter unknown language', () => {
-      const text = 'meh';
-
-      const dummyReturnValue = [{ language: text }, { language: LanguageCode.UNKNOWN }];
-      const dummyReturn = {
-        size: () => 2,
-        get: (idx: number) => dummyReturnValue[idx]
-      };
-
-      mockIdentifier.FindTopNMostFreqLangs.mockReturnValueOnce(dummyReturn);
-      const ret = identifier.findMostFrequentLanguages(text, 3);
-
-      //we do not verify actual wasm binary behavior, only checks input - output logic.
-      //actual integration test are placed under cld-spec.
-      expect(ret).to.deep.equal([{ language: text }]);
-
-      expect(mockIdentifier.FindTopNMostFreqLangs.mock.calls).to.have.lengthOf(1);
-      expect(mockIdentifier.FindTopNMostFreqLangs.mock.calls[0]).to.deep.equal([text, 3]);
+      identifier = cldLoader(getAsmModule()).create(10, 10);
     });
 
     it('should able to destroy instance', () => {
       identifier.dispose();
 
-      expect(mockIdentifier.delete.mock.calls).to.have.lengthOf(1);
+      expect(mockCldInterface.destroy).toHaveBeenCalledTimes(1);
     });
   });
 });
