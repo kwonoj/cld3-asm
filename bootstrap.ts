@@ -74,7 +74,7 @@ const downloadSingleBinary = async (libPath: string, binaryFile: { url: string; 
  */
 (async () => {
   const libPath = path.resolve('./src/lib');
-  const binaryFiles = ['cld3.js'].map(fileName => ({
+  const binaryFiles = ['cld3-asm.js'].map(fileName => ({
     url: `https://github.com/kwonoj/docker-cld3-wasm/releases/download/${version}/${fileName}`,
     localBinaryPath: path.join(libPath, fileName),
     type: path.extname(fileName) === '.js' ? 'hex' : ('binary' as crypto.HexBase64Latin1Encoding)

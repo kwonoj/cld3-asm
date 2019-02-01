@@ -23,7 +23,7 @@ const loadModule = async (
 ) => {
   //imports MODULARIZED emscripten preamble
   //tslint:disable-next-line:no-require-imports no-var-requires
-  const runtime = require(`./lib/cld3`);
+  const runtime = require(`./lib/cld3-asm`);
 
   const { environment, timeout } = initOptions;
   const env = environment ? environment : isNode() ? ENVIRONMENT.NODE : ENVIRONMENT.WEB;
