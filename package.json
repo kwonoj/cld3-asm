@@ -13,7 +13,7 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     },
-    "cld3-version": "6775a8a-190131"
+    "cld3-version": "c536440-190202"
   },
   "lint-staged": {
     "*.{ts,js}": [
