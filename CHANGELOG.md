@@ -1,3 +1,18 @@
+<a name="2.0.0-beta.6"></a>
+# [2.0.0-beta.6](https://github.com/kwonoj/cld3-asm/compare/v2.0.0-beta.5...v2.0.0-beta.6) (2019-02-14)
+
+
+### Bug Fixes
+
+* **languagecode:** preserve runtime enum ([e65b7a9](https://github.com/kwonoj/cld3-asm/commit/e65b7a9))
+
+
+### Features
+
+* **languagecode:** ensure unknown identifier match ([b04f7ef](https://github.com/kwonoj/cld3-asm/commit/b04f7ef))
+
+
+
 <a name="2.0.0-beta.5"></a>
 # [2.0.0-beta.5](https://github.com/kwonoj/cld3-asm/compare/v2.0.0-beta.4...v2.0.0-beta.5) (2019-01-31)
 
