@@ -9,6 +9,6 @@
   "license": "MIT",
   "devDependencies": {
     "ts-node": "^7.0.1",
-    "typescript": "^3.2.4"
+    "typescript": "^3.3.3333"
   }
 }
