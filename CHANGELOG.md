@@ -1,3 +1,13 @@
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/kwonoj/cld3-asm/compare/v2.0.0...v2.0.1) (2019-06-10)
+
+
+### Features
+
+* **index:** reexport environment ([9eae6e9](https://github.com/kwonoj/cld3-asm/commit/9eae6e9))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/kwonoj/cld3-asm/compare/v2.0.0-beta.6...v2.0.0) (2019-03-01)
 
