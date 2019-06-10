@@ -1,6 +1,6 @@
 {
   "name": "cld3-asm",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "WebAssembly based Javascript bindings for google compact language detector 3",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
