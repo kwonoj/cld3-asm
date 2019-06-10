@@ -2,6 +2,7 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "module": "esnext",
+    "target": "es2018",
     "outDir": "../dist/esm",
   }
 }
