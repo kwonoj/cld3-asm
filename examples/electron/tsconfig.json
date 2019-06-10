@@ -13,7 +13,6 @@
     "noUnusedParameters": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "importHelpers": true,
     "pretty": true,
     "target": "es5",
     "outDir": "dist",
