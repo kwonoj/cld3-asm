@@ -12,7 +12,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmit": true,
-    "target": "es5",
+    "target": "es2018",
     "outDir": "dist",
     "lib": [
       "es2016"
