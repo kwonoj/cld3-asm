@@ -1,19 +1,22 @@
 {
   "name": "cld3-asm",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "WebAssembly based Javascript bindings for google compact language detector 3",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
+  "browser": {
+    "./dist/cjs/lib/node/cld3.js": "./dist/cjs/lib/browser/cld3.js",
+    "./dist/esm/lib/node/cld3.js": "./dist/esm/lib/browser/cld3.js"
+  },
   "engines": {
-    "npm": ">=3.0.0",
-    "node": ">=8.0.0"
+    "node": ">=10"
   },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
     },
-    "cld3-version": "c536440-190202"
+    "cld3-version": "ade8819-190613"
   },
   "lint-staged": {
     "*.{ts,js}": [
@@ -56,16 +59,16 @@
     "@commitlint/cli": "^8.0.0",
     "@commitlint/config-angular": "^8.0.0",
     "@types/chai": "^4.1.7",
-    "@types/jest": "^24.0.13",
+    "@types/jest": "^24.0.14",
     "@types/lodash": "^4.14.134",
-    "@types/node": "^12.0.7",
+    "@types/node": "^12.0.8",
     "@types/shelljs": "^0.8.5",
     "@types/utf8": "^2.1.6",
     "chai": "^4.2.0",
     "commitizen": "^3.1.1",
     "conventional-changelog-cli": "^2.0.21",
     "cz-conventional-changelog": "2.1.0",
-    "husky": "^2.4.0",
+    "husky": "^2.4.1",
     "jest": "^24.8.0",
     "jest-spin-reporter": "^1.0.2",
     "lint-staged": "^8.2.0",
@@ -82,7 +85,7 @@
     "utf8": "^3.0.0"
   },
   "dependencies": {
-    "emscripten-wasm-loader": "^2.2.3"
+    "emscripten-wasm-loader": "^3.0.2"
   },
   "husky": {
     "hooks": {

@@ -10,7 +10,7 @@ const getAsmModule = (): CldAsmModule =>
   (({
     cwrap: jest.fn(),
     getValue: jest.fn(),
-    Pointer_stringify: jest.fn(() => LanguageCode.UNKNOWN),
+    UTF8ToString: jest.fn(() => LanguageCode.UNKNOWN),
     allocateUTF8: jest.fn(),
     setValue: jest.fn(),
     initializeRuntime: jest.fn(),

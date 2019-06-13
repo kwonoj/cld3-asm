@@ -1,3 +1,24 @@
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/kwonoj/cld3-asm/compare/v2.0.1...v3.0.0) (2019-06-13)
+
+
+### build
+
+* **tsconfig:** update target ([f619336](https://github.com/kwonoj/cld3-asm/commit/f619336))
+
+
+### Features
+
+* **loadmodule:** no longer accepts environment ([4a6ecdc](https://github.com/kwonoj/cld3-asm/commit/4a6ecdc))
+
+
+### BREAKING CHANGES
+
+* **tsconfig:** runtime requires es2018
+* **loadmodule:** do not support environment override
+
+
+
 <a name="2.0.1"></a>
 ## [2.0.1](https://github.com/kwonoj/cld3-asm/compare/v2.0.0...v2.0.1) (2019-06-10)
 

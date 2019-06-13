@@ -1,4 +1,3 @@
-import { ENVIRONMENT } from 'emscripten-wasm-loader';
 import { CldAsmModule, LanguageResult } from './cldAsmModule';
 import { CldFactory } from './cldFactory';
 import { LanguageCode } from './languageCode';
@@ -17,8 +16,8 @@ const PTR_SIZE = 4;
  *
  * @returns {CldFactory} Factory function manages lifecycle of cld3 language identifier.
  */
-export const cldLoader = (asmModule: CldAsmModule, _environment?: ENVIRONMENT): CldFactory => {
-  const { cwrap, _free, allocateUTF8, _malloc, getValue, Pointer_stringify, setValue } = asmModule;
+export const cldLoader = (asmModule: CldAsmModule): CldFactory => {
+  const { cwrap, _free, allocateUTF8, _malloc, getValue, UTF8ToString, setValue } = asmModule;
   const cldInterface = wrapCldInterface(cwrap);
 
   /**
@@ -35,7 +34,7 @@ export const cldLoader = (asmModule: CldAsmModule, _environment?: ENVIRONMENT): 
   };
 
   // grab constant values from cld3 library
-  const unknownIdentifier = Pointer_stringify(cldInterface.getUnknownIdentifier());
+  const unknownIdentifier = UTF8ToString(cldInterface.getUnknownIdentifier());
   const minBytesDefault = cldInterface.getMinNumBytesDefault();
   const maxBytesDefault = cldInterface.getMaxNumBytesDefault();
   const maxBytesInput = cldInterface.getMaxNumBytesInput();
@@ -66,7 +65,7 @@ export const cldLoader = (asmModule: CldAsmModule, _environment?: ENVIRONMENT): 
 
     // be careful to match order of properties to match pointer to struct field.
     const ret: LanguageResult = {
-      language: Pointer_stringify(languageStringPtr) as LanguageCode,
+      language: UTF8ToString(languageStringPtr) as LanguageCode,
       probability: getValue(structPtr + PTR_SIZE * 1, 'float'),
       is_reliable: !!getValue(structPtr + PTR_SIZE * 2, 'i8'),
       proportion: getValue(structPtr + PTR_SIZE * 3, 'float')

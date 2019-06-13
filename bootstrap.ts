@@ -60,9 +60,11 @@ const validateBinaries = async (binaryFiles: Array<{ url: string; localBinaryPat
  * Actually download binary from remote. This is direct invocation to wget, need local wget installation.
  *
  */
-const downloadSingleBinary = async (libPath: string, binaryFile: { url: string; localBinaryPath: string }) => {
-  const { url } = binaryFile;
-  await asyncExec(`wget -q --directory-prefix=${libPath} ${url}`);
+const downloadSingleBinary = async (libPath: string, binaryFile: { url: string; binaryType: string; localBinaryPath: string }) => {
+  const { url, binaryType, localBinaryPath } = binaryFile;
+  const outPath = path.join(libPath, binaryType);
+  mkdir(outPath);
+  await asyncExec(`wget -O ${localBinaryPath} ${url}`);
 
   if (!validateBinaries([binaryFile])) {
     throw new Error(`Downloaded binary checksum mismatch, cannot complete bootstrap`);
@@ -74,11 +76,16 @@ const downloadSingleBinary = async (libPath: string, binaryFile: { url: string; 
  */
 (async () => {
   const libPath = path.resolve('./src/lib');
-  const binaryFiles = ['cld3.js'].map(fileName => ({
-    url: `https://github.com/kwonoj/docker-cld3-wasm/releases/download/${version}/${fileName}`,
-    localBinaryPath: path.join(libPath, fileName),
-    type: path.extname(fileName) === '.js' ? 'hex' : ('binary' as crypto.HexBase64Latin1Encoding)
-  }));
+  const binaryFiles = ['node', 'browser'].map(binaryType => {
+    const fileName = `cld3_${binaryType}.js`;
+
+    return {
+      url: `https://github.com/kwonoj/docker-cld3-wasm/releases/download/${version}/${fileName}`,
+      localBinaryPath: path.join(libPath, binaryType, 'cld3.js'),
+      binaryType,
+      type: path.extname(fileName) === '.js' ? 'hex' : ('binary' as crypto.HexBase64Latin1Encoding)
+    };
+  });
 
   const isBinaryValid = await validateBinaries(binaryFiles);
 

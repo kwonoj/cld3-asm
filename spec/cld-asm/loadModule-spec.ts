@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import { getModuleLoader as getModuleLoaderMock, isNode } from 'emscripten-wasm-loader';
 import { loadModule } from '../../src/loadModule';
 
-const cld3Mock = require('../../src/lib/cld3'); //tslint:disable-line:no-require-imports no-var-requires
+const cld3Mock = require('../../src/lib/node/cld3'); //tslint:disable-line:no-require-imports no-var-requires
 
-jest.mock('../../src/lib/cld3', () => jest.fn());
+jest.mock('../../src/lib/node/cld3', () => jest.fn());
 jest.mock('../../src/cldLoader');
 jest.mock('emscripten-wasm-loader', () => ({
   isWasmEnabled: jest.fn(),
