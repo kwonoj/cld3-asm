@@ -4,7 +4,6 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "declaration": false,
-    "noImplicitAny": true,
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
     "strictNullChecks": true,

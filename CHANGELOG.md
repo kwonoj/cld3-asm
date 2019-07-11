@@ -1,3 +1,13 @@
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/kwonoj/cld3-asm/compare/v3.0.0...v3.1.0) (2019-07-11)
+
+
+### Features
+
+* **languageresult:** include spaninfo array ([d9f716c](https://github.com/kwonoj/cld3-asm/commit/d9f716c))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/kwonoj/cld3-asm/compare/v2.0.1...v3.0.0) (2019-06-13)
 
