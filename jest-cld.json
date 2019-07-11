@@ -1,7 +1,7 @@
 {
   "preset": "ts-jest",
   "testMatch": [
-    "**/spec/cld/**/*-spec.ts"
+    "**/spec/cld/**/cld-spec.ts"
   ],
   "bail": true,
   "testEnvironment": "node",
