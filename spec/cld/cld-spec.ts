@@ -22,13 +22,15 @@ describe('cld', () => {
     // https://github.com/google/cld3/issues/6
     const excluded: Array<string> = ['bs', 'id'];
 
-    fixture.filter(({ expected }) => !_.includes(excluded, expected)).forEach(({ expected, source }) => {
-      it(`should detect ${expected}`, () => {
-        const result = identifier.findLanguage(source);
+    fixture
+      .filter(({ expected }) => !_.includes(excluded, expected))
+      .forEach(({ expected, source }) => {
+        it(`should detect ${expected}`, () => {
+          const result = identifier.findLanguage(source);
 
-        expect(result.language).to.equal(expected);
+          expect(result.language).to.equal(expected);
+        });
       });
-    });
   });
 
   describe('findMostFrequentLanguages', () => {
@@ -59,9 +61,20 @@ describe('cld', () => {
       // Iterate over the results and check that the correct proportions are
       // returned for the expected languages.
       for (let idx = 0; idx < results.length; idx++) {
-        expect(results[idx].language).to.equal(expected_lang_proportions[idx].expected);
+        const lang = results[idx].language;
+        expect(lang).to.equal(expected_lang_proportions[idx].expected);
         const propotion = Math.abs(results[idx].proportion - expected_lang_proportions[idx].span);
         expect(propotion).to.lessThan(epsilon);
+
+        const byte_ranges = results[idx].byte_ranges;
+        expect(byte_ranges).to.have.lengthOf(1);
+
+        const { start_index, end_index } = byte_ranges[0];
+
+        const byte_ranges_text = text.substr(start_index, end_index - start_index);
+        const expected_byte_ranges_span =
+          lang === 'bg' ? 'Този текст е на Български.' : `This piece of text is in English. `;
+        expect(byte_ranges_text).to.equal(expected_byte_ranges_span);
       }
     });
   });
