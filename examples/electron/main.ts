@@ -9,7 +9,10 @@ app.on('window-all-closed', () => {
 app.on('ready', () => {
   mainWindow = new BrowserWindow({
     width: 1024,
-    height: 768
+    height: 768,
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
 
   mainWindow.loadURL(`file://${__dirname}/${process.env.ENTRY}.html`);

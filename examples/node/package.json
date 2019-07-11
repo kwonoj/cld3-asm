@@ -8,7 +8,7 @@
   "author": "OJ Kwon <kwon.ohjoong@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "ts-node": "^7.0.1",
-    "typescript": "^3.3.3333"
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
   }
 }
