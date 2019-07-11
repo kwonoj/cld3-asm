@@ -54,6 +54,29 @@ export const cldLoader = (asmModule: CldAsmModule): CldFactory => {
   }
 
   /**
+   * Wrapper function to read SpanInfo** array from pointer.
+   * After interop, pointer will be freed.
+   */
+  const volatileReadSpanInfoArray = (arrayPtr: number, size: number) => {
+    const ret = Array.from(new Array(size)).map((_, idx) => {
+      const spanInfoPtr = getValue(arrayPtr + PTR_SIZE * idx, '*');
+      const range = {
+        start_index: getValue(spanInfoPtr + PTR_SIZE * 0, 'i8'),
+        end_index: getValue(spanInfoPtr + PTR_SIZE * 1, 'i8'),
+        probability: getValue(spanInfoPtr + PTR_SIZE * 2, 'float')
+      };
+
+      //free each individual SpanInfo* struct
+      _free(spanInfoPtr);
+      return range;
+    });
+
+    //free SpanInfo** array
+    _free(arrayPtr);
+    return ret;
+  };
+
+  /**
    * Wrapper function to read LanguageResult struct from pointer.
    * After interop, pointer will be freed.
    *
@@ -63,12 +86,17 @@ export const cldLoader = (asmModule: CldAsmModule): CldFactory => {
     // get value of first field of LanguageResult struct (char*)
     const languageStringPtr = getValue(structPtr + PTR_SIZE * 0, '*');
 
+    // get ptr to array of byte range with its size
+    const byteRangesSize = getValue(structPtr + PTR_SIZE * 4, 'i8');
+    const byteRangesArrayPtr = getValue(structPtr + PTR_SIZE * 5, '*');
+
     // be careful to match order of properties to match pointer to struct field.
     const ret: LanguageResult = {
       language: UTF8ToString(languageStringPtr) as LanguageCode,
       probability: getValue(structPtr + PTR_SIZE * 1, 'float'),
       is_reliable: !!getValue(structPtr + PTR_SIZE * 2, 'i8'),
-      proportion: getValue(structPtr + PTR_SIZE * 3, 'float')
+      proportion: getValue(structPtr + PTR_SIZE * 3, 'float'),
+      byte_ranges: volatileReadSpanInfoArray(byteRangesArrayPtr, byteRangesSize)
     };
 
     //free char* for language string

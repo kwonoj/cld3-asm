@@ -1,6 +1,17 @@
 import { BaseAsmModule } from 'emscripten-wasm-loader';
 import { LanguageCode } from './languageCode';
 
+/**
+ * Holds probability that Span, specified by start/end indices, is a given
+ * language. The langauge is not stored here; it can be found in Result, which
+ * holds a vector of SpanInfo.
+ */
+export interface SpanInfo {
+  start_index: number;
+  end_index: number;
+  probability: number;
+}
+
 export interface LanguageResult {
   /**
    * Detected language. {UnknownLanguage} if detection fails.
@@ -19,6 +30,10 @@ export interface LanguageResult {
    * called, this variable is set to 1.
    */
   proportion: number;
+  /**
+   * Specifies the byte ranges that |language| applies to.
+   */
+  byte_ranges: Array<SpanInfo>;
 }
 
 /**
