@@ -1,3 +1,13 @@
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/kwonoj/cld3-asm/compare/v3.1.1...v4.0.0) (2023-12-31)
+
+
+### Features
+
+* **cld3:** disable nodejs_catch* behavior ([44301f4](https://github.com/kwonoj/cld3-asm/commit/44301f4))
+
+
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://github.com/kwonoj/cld3-asm/compare/v3.1.0...v3.1.1) (2019-07-19)
 

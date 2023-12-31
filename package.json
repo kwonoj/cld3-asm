@@ -1,6 +1,6 @@
 {
   "name": "cld3-asm",
-  "version": "3.1.1",
+  "version": "4.0.0",
   "description": "WebAssembly based Javascript bindings for google compact language detector 3",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -16,7 +16,7 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     },
-    "cld3-version": "1b9640d-190711"
+    "cld3-version": "4d0870c-231231"
   },
   "lint-staged": {
     "*.{ts,js}": [
