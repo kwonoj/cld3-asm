@@ -1,6 +1,3 @@
-[![Build Status](https://travis-ci.org/kwonoj/cld3-asm.svg?branch=master)](https://travis-ci.org/kwonoj/cld3-asm)
-[![Build status](https://ci.appveyor.com/api/projects/status/vko7m5l7brt5w9ok?svg=true)](https://ci.appveyor.com/project/kwonoj/cld3-asm)
-[![codecov](https://codecov.io/gh/kwonoj/cld3-asm/branch/master/graph/badge.svg)](https://codecov.io/gh/kwonoj/cld3-asm)
 [![npm](https://img.shields.io/npm/v/cld3-asm.svg)](https://www.npmjs.com/package/cld3-asm)
 [![node](https://img.shields.io/badge/node-=>8.0-blue.svg?style=flat)](https://www.npmjs.com/package/cld3-asm)
 
